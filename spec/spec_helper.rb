@@ -1,6 +1,6 @@
 require 'bundler/setup'
 require 'redux_ussd'
-require 'simplecov'
+require 'coveralls'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
@@ -13,6 +13,5 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
 
-  SimpleCov.start
   Coveralls.wear!
 end
