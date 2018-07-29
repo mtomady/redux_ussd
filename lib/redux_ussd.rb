@@ -9,8 +9,8 @@ module ReduxUssd
     end
   end
 
-  def self.included(host_class)
-    host_class.extend ClassMethods
+  def self.included(klass)
+    klass.extend ClassMethods
   end
 
   module ClassMethods

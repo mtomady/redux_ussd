@@ -16,10 +16,34 @@ module ReduxUssd
       end
 
       def_delegator :@menu, :add_screen, :screen
+      def_delegator :@menu, :state, :state
+    end
+
+    attr_writer :initial_state
+
+    def initialize
+      @initial_state = {
+          navigation: {
+              current_screen: :index,
+              routes: {}
+          },
+          prompt: {}
+      }
+      middlewares = [
+          Middlewares::OptionSelect,
+          Middlewares::PromptParse
+      ]
+      reducers = {
+          navigation: Reducers::Navigation,
+          prompt: Reducers::Prompt
+      }
+      @store = Store.new(@initial_state,
+                         middlewares,
+                         reducers)
     end
 
     def render
-      current_screen = store.state[:navigation][:current_screen]
+      current_screen = @store.state[:navigation][:current_screen]
       screen = screens[current_screen]
       output = screen.render
       instance_eval(&screen.process_block)
@@ -27,18 +51,18 @@ module ReduxUssd
     end
 
     def handle_raw_input(raw_input)
-      store.dispatch(type: :handle_raw_input, raw_input: raw_input)
+      @store.dispatch(type: :handle_raw_input, raw_input: raw_input)
     end
 
     def end?
-      current_screen = store.state[:navigation][:current_screen]
-      store.state[:navigation][:routes][current_screen].empty?
+      current_screen = @store.state[:navigation][:current_screen]
+      (@store.state[:navigation][:routes][current_screen] || []).empty?
     end
 
     def add_screen(name, _options = {}, &block)
       screens[name] = Components::Screen.new(
         name: name,
-        store: store,
+        store: @store,
         block: block
       )
     end
@@ -71,29 +95,6 @@ module ReduxUssd
 
     def screens
       @screens ||= {}
-    end
-
-    def store
-      @store ||= begin
-        initial_state = {
-          navigation: {
-            current_screen: :index,
-              routes: {}
-          },
-            prompt: {}
-        }
-
-        middlewares = [
-            Middlewares::OptionSelect,
-            Middlewares::PromptParse
-        ]
-        reducers = {
-          navigation: Reducers::Navigation,
-            prompt: Reducers::Prompt
-        }
-        Store.new(initial_state,
-                  middlewares, reducers)
-      end
     end
   end
 end

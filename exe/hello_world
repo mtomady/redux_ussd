@@ -37,13 +37,25 @@ class HelloWorld
       process do |state|
       end
     end
+
+    def initial_state
+      {
+          navigation: {
+              current_screen: :index,
+              routes: {}
+          },
+          prompt: {}
+      }
+    end
   end
 end
 
 hello_world = HelloWorld.new
-until hello_world.menu.end?
+stop = false
+until stop
   puts hello_world.menu.render
   print '>> '
   input = gets.strip
   hello_world.menu.handle_raw_input(input)
+  stop = hello_world.menu.end?
 end

@@ -8,6 +8,7 @@ RSpec.describe ReduxUssd::Store do
                                     middlewares,
                                     listeners)}
   subject { store }
+
   describe '#state' do
 
   end
