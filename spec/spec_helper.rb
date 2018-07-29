@@ -1,6 +1,7 @@
 require 'bundler/setup'
 require 'redux_ussd'
 require 'coveralls'
+require 'simplecov'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
