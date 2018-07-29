@@ -1,0 +1,49 @@
+#!/usr/bin/env ruby
+
+require 'bundler/setup'
+require 'redux_ussd'
+
+class HelloWorld
+  include ReduxUssd
+
+  menu do
+    screen :index, initial: true do
+      text 'Welcome to test service'
+      option :deposit, text: 'Deposit money'
+      option :send, text: 'Send money to someone else'
+      option :balance, text: 'Check your balance'
+      process do |_|
+      end
+    end
+
+    screen :welcome do
+      option :back, text: 'Back'
+
+      process do |state|
+      end
+    end
+
+    screen :deposit do
+      prompt :amount, text: 'How much?'
+
+      process do |state|
+        push :deposit_success
+      end
+    end
+
+    screen :deposit_success do
+      text "Successfully deposited #{state[:prompt][:amount]}AR"
+
+      process do |state|
+      end
+    end
+  end
+end
+
+hello_world = HelloWorld.new
+until hello_world.menu.end?
+  puts hello_world.menu.render
+  print '>> '
+  input = gets.strip
+  hello_world.menu.handle_raw_input(input)
+end
