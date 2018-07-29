@@ -7,7 +7,13 @@ module ReduxUssd
             if action[:type] == :handle_raw_input
               routes = store.state[:navigation][:routes]
               current_screen = store.state[:navigation][:current_screen]
-              option_index = Integer(action[:raw_input]) - 1
+
+              begin
+                option_index = Integer(action[:raw_input]) - 1
+              rescue ArgumentError
+                store.dispatch(type: :push, screen: :option_not_found)
+                return
+              end
 
               if routes.key?(current_screen) # TODO: Test
                 if option_index < routes[current_screen].count &&

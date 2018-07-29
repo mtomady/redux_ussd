@@ -12,8 +12,14 @@ RSpec.describe ReduxUssd::Reducers::Prompt do
                                                   values: { a_target: 'raw input' })
       end
 
-      it 'should replace old values' do
+      context 'with existing values' do
+        it 'should not replace other values' do
 
+        end
+
+        it 'should replace old values' do
+
+        end
       end
     end
 

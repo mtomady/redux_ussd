@@ -29,9 +29,9 @@ Or install it yourself as:
 Extend an existing class or module
 ```ruby
 class HelloWorldMenu
-  include Redux::Ussd 
+  include ReduxUssd 
   
-  ussd do
+  menu do
     screen :index, initial: true do
       after do
         push :welcome unless session[:user].nil? 

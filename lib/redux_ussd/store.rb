@@ -26,6 +26,7 @@ module ReduxUssd
       return unless new_state
 
       @state = new_state
+
       # Notify all listeners
       @listeners.each(&:call)
     end

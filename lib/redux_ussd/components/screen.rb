@@ -17,7 +17,7 @@ module ReduxUssd
         def_delegator :@screen, :add_push, :push
         def_delegator :@screen, :add_text, :text
         def_delegator :@screen, :add_prompt, :prompt
-        def_delegator :@screen, :add_process_block, :process
+        def_delegator :@screen, :register_after, :after
         def_delegator :@screen, :state
       end
 
@@ -34,7 +34,7 @@ module ReduxUssd
         @components.map(&:render).join("\n")
       end
 
-      attr_reader :process_block
+      attr_reader :after
 
       def add_option(name, options = {})
         @components.push(Option.new(
@@ -56,8 +56,10 @@ module ReduxUssd
                         target: name)
       end
 
-      def add_process_block(&block)
-        @process_block = block
+      attr_reader :after
+
+      def register_after(&block)
+        @after = block
       end
 
       def state

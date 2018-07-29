@@ -12,21 +12,21 @@ class HelloWorld
       option :deposit, text: 'Deposit money'
       option :send, text: 'Send money to someone else'
       option :balance, text: 'Check your balance'
-      process do |_|
+      after do |_|
       end
     end
 
     screen :welcome do
       option :back, text: 'Back'
 
-      process do |state|
+      after do |state|
       end
     end
 
     screen :deposit do
       prompt :amount, text: 'How much?'
 
-      process do |state|
+      after do |state|
         push :deposit_success
       end
     end
@@ -34,7 +34,7 @@ class HelloWorld
     screen :deposit_success do
       text "Successfully deposited #{state[:prompt][:amount]}AR"
 
-      process do |state|
+      after do |state|
       end
     end
 
@@ -53,9 +53,9 @@ end
 hello_world = HelloWorld.new
 stop = false
 until stop
+  #stop = hello_world.menu.end?
   puts hello_world.menu.render
   print '>> '
   input = gets.strip
   hello_world.menu.handle_raw_input(input)
-  stop = hello_world.menu.end?
 end

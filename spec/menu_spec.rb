@@ -5,7 +5,7 @@ RSpec.describe ReduxUssd::Menu do
   subject { menu }
 
   before(:each) do
-    allow(subject).to receive(:store).and_return(store)
+    allow_any_instance_of(ReduxUssd::Store).to receive(:new).and_return(store)
     allow(store).to receive(:dispatch)
   end
 
@@ -20,8 +20,10 @@ RSpec.describe ReduxUssd::Menu do
   end
 
   describe '#render' do
-    it 'should render the current screen' do
+    let(:screen) { double('ReduxUssd::Screen') }
 
+    it 'should render the current screen' do
+      expect(subject.render).to eq(screen.render)
     end
   end
 
@@ -35,44 +37,13 @@ RSpec.describe ReduxUssd::Menu do
     end
   end
 
-  # def screen(name, _options = {}, &block)
-  #   screens[name] = Components::Screen.new(
-  #       name: name,
-  #       store: store,
-  #       block: block
-  #   )
-  # end
-  #
-  # def render
-  #   current_screen = store.state[:navigation][:current_screen]
-  #   screens[current_screen].tap do |screen|
-  #     instance_eval(&screen.process_block)
-  #   end.render
-  # end
-  #
-  # def handle_raw_input(raw_input)
-  #   store.dispatch(type: :handle_raw_input, raw_input: raw_input)
-  # end
-  #
-  # def end?
-  #   current_screen = store.state[:navigation][:current_screen]
-  #   store.state[:navigation][:routes][current_screen].empty?
-  # end
-  #
-  # # def will_mount
-  # #   return unless @process_block
-  # #   @store.unsubscribe(@process_block)
-  # # end
-  # #
-  # # def will_unmount
-  # #   return unless @process_block
-  # #   @store.subscribe do
-  # #     @process_block.call(@store.state)
-  # #   end
-  # # end
-  # #
-  #
-  # def state
-  #   @store.state
-  # end
+  describe '#state' do
+    let(:state) { {var: '1'} }
+
+    it 'should return the stores state' do
+      allow(store).to receive(:state).and_return(state)
+      expect(subject.state).to eq(state)
+      expect(store).to have_received(:state).once
+    end
+  end
 end

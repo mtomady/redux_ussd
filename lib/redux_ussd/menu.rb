@@ -40,14 +40,20 @@ module ReduxUssd
       @store = Store.new(@initial_state,
                          middlewares,
                          reducers)
+
+      @current_screen = :index
+
+      @store.subscribe do
+        current_screen = @store.state[:navigation][:current_screen]
+        screens[@current_screen].after.call(state)
+        # end
+      end
+
     end
 
     def render
       current_screen = @store.state[:navigation][:current_screen]
-      screen = screens[current_screen]
-      output = screen.render
-      instance_eval(&screen.process_block)
-      output
+      screens[current_screen].render
     end
 
     def handle_raw_input(raw_input)
@@ -70,18 +76,6 @@ module ReduxUssd
     def state
       @store.state
     end
-    # def will_mount
-    #   return unless @process_block
-    #   @store.unsubscribe(@process_block)
-    # end
-    #
-    # def will_unmount
-    #   return unless @process_block
-    #   @store.subscribe do
-    #     @process_block.call(@store.state)
-    #   end
-    # end
-    #
 
     private
 
