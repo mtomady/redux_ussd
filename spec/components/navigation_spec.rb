@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'redux_ussd/components/text'
 
 RSpec.describe ReduxUssd::Components::Option do

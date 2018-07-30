@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ReduxUssd
   module Components
     # Abstract base component that assigns a name

@@ -2,6 +2,7 @@ AllCops:
   Exclude:
     - 'vendor/**/*'
     - 'exe/**/*'
+  TargetRubyVersion: 2.3
 
 Metrics/BlockLength:
   Exclude:

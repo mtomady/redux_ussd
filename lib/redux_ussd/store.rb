@@ -1,6 +1,9 @@
+# frozen_string_literal: true
+
 require 'redux_ussd/reducers/navigation'
 
 module ReduxUssd
+  # Dispatches action and mutates state using middlewares and reducers
   class Store
     attr_reader :state
 
@@ -22,11 +25,11 @@ module ReduxUssd
       end
 
       # Run the chain and update the state
-      dispatch_lambda.call(action)&.tap { |new_state|
+      dispatch_lambda.call(action)&.tap do |new_state|
         @state = new_state
         # Notify all listeners
         @listeners.each(&:call)
-      }
+      end
     end
 
     def unsubscribe(&block)

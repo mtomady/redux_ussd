@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
 module ReduxUssd
   module Middlewares
+    # Middleware to convert input number into :push screen actions
     module OptionSelect
       def self.call(store)
         lambda do |forward|
@@ -8,11 +11,13 @@ module ReduxUssd
               forward.call(action)
               return
             end
+
             routes = store.state[:navigation][:routes]
             current_screen = store.state[:navigation][:current_screen]
 
-            unless routes.key?(current_screen) || routes[current_screen]&.count || 0 > 0
-              forward.call(action)            # TODO: Test
+            unless routes.key?(current_screen) || routes[current_screen]&.
+                count&.positive?
+              forward.call(action) # TODO: Test
               return
             end
 

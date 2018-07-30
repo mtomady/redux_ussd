@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'redux_ussd/version'
 require 'redux_ussd/menu'
 require 'redux_ussd/store'

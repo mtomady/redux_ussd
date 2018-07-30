@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ReduxUssd
   module Components
     # Models an input prompt with a text.

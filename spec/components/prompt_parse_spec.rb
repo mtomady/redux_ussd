@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe ReduxUssd::Components::Prompt do
   let(:name) { 'A random name' }
   let(:prompt_text) { 'A random text' }

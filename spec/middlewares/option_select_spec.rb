@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe ReduxUssd::Middlewares::OptionSelect do
   subject { described_class }
 

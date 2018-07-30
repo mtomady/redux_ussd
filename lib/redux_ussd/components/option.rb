@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ReduxUssd
   module Components
     # Acts as a numbered, selectable option in a menu

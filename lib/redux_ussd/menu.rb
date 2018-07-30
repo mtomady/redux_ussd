@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'redux_ussd/components/screen'
 require 'redux_ussd/store'
 require 'redux_ussd/reducers/navigation'
@@ -7,38 +9,13 @@ require 'redux_ussd/middlewares/prompt_parse'
 require 'redux_ussd/middlewares/prompt_parse'
 
 module ReduxUssd
+  # Configures a menu, setups all view components and
+  # handles inputs using a redux store
   class Menu
-    class Proxy
-      extend Forwardable
-
-      def initialize(menu)
-        @menu = menu
-      end
-
-      def_delegator :@menu, :add_screen, :screen
-      def_delegator :@menu, :state, :state
-    end
-
     def initialize(initial_state = {})
-      middlewares = [
-          Middlewares::OptionSelect,
-          Middlewares::PromptParse
-      ]
-      reducers = {
-          navigation: Reducers::Navigation,
-          prompt: Reducers::Prompt
-      }
       @store = Store.new(initial_state,
                          middlewares,
                          reducers)
-
-      @current_screen = initial_state[:navigation][:current_screen]
-      @store.subscribe do
-        @current_screen = @store.state[:navigation][:current_screen].tap do |new_screen|
-          next if new_screen == @current_screen
-          screens[@current_screen].after&.call(@store.state)
-        end
-      end
     end
 
     def render
@@ -69,9 +46,7 @@ module ReduxUssd
 
     private
 
-    def session
-      @session
-    end
+    attr_reader :session
 
     def push(screen)
       @store.dispatch(type: :push, screen: screen)
@@ -79,6 +54,32 @@ module ReduxUssd
 
     def screens
       @screens ||= {}
+    end
+
+    def middlewares
+      [
+        Middlewares::OptionSelect,
+        Middlewares::PromptParse
+      ]
+    end
+
+    def reducers
+      {
+        navigation: Reducers::Navigation,
+        prompt: Reducers::Prompt
+      }
+    end
+
+    # Proxies the DSL methods to menu methods
+    class Proxy
+      extend Forwardable
+
+      def initialize(menu)
+        @menu = menu
+      end
+
+      def_delegator :@menu, :add_screen, :screen
+      def_delegator :@menu, :state, :state
     end
   end
 end

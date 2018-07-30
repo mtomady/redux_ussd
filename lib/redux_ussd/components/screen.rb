@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'redux_ussd/components/text'
 require 'redux_ussd/components/prompt'
 require 'redux_ussd/components/option'
@@ -7,22 +9,6 @@ module ReduxUssd
   module Components
     # Container component for prompts, text and options
     class Screen < Base
-      # Proxies the DSL methods to screen methods
-      class Proxy
-        extend Forwardable
-
-        def initialize(screen)
-          @screen = screen
-        end
-
-        def_delegator :@screen, :add_option, :option
-        def_delegator :@screen, :add_push, :push
-        def_delegator :@screen, :add_text, :text
-        def_delegator :@screen, :add_prompt, :prompt
-        def_delegator :@screen, :register_after, :after
-        def_delegator :@screen, :state
-      end
-
       def initialize(options = {})
         @name = options[:name]
         @block = options[:block]
@@ -73,6 +59,22 @@ module ReduxUssd
 
       def option_components
         @components.select { |c| c.is_a?(Option) }
+      end
+
+      # Proxies the DSL methods to screen methods
+      class Proxy
+        extend Forwardable
+
+        def initialize(screen)
+          @screen = screen
+        end
+
+        def_delegator :@screen, :add_option, :option
+        def_delegator :@screen, :add_push, :push
+        def_delegator :@screen, :add_text, :text
+        def_delegator :@screen, :add_prompt, :prompt
+        def_delegator :@screen, :register_after, :after
+        def_delegator :@screen, :state
       end
     end
   end

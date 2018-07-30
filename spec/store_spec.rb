@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 RSpec.describe ReduxUssd::Store do
   let(:middlewares) { [] }
   let(:reducers) { [] }
@@ -5,8 +7,8 @@ RSpec.describe ReduxUssd::Store do
   let(:initial_state) { {} }
   let(:store) do
     described_class.new(initial_state,
-                        reducers,
                         middlewares,
+                        reducers,
                         listeners)
   end
   subject { store }
@@ -18,6 +20,7 @@ RSpec.describe ReduxUssd::Store do
     let(:reducers) do
       [proc {}, proc {}]
     end
+
     it 'should call the middlewares in the right order' do
     end
 

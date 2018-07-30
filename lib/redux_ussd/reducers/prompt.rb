@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ReduxUssd
   module Reducers
     # Registers and sets variables from a prompt input

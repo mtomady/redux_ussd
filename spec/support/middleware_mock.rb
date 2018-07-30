@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ReduxUssd
   module Middlewares
     module MiddlewareMock

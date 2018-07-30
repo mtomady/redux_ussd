@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ReduxUssd
   module Reducers
     # Handles navigation related action such as :push and :register_route

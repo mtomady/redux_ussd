@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'redux_ussd/components/base'
 
 RSpec.describe ReduxUssd::Components::Base do
