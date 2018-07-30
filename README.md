@@ -30,7 +30,7 @@ class HelloWorldMenu
   include ReduxUssd 
   
   menu do
-    screen :index, initial: true do
+    screen :index do
       after do
         push :welcome unless session[:user].nil? 
       end
@@ -58,6 +58,18 @@ class HelloWorldMenu
         push :welcome
       end
     end
+  end
+  
+  # Fetch the state from a persistence object like ActiveRecord and 
+  # setup the menu
+  def initialize(session)
+    @session = session
+    menu.setup_menu(@session.state)
+  end
+  
+  # Save the state back to persistence object
+  def save_state
+    @session.update(state: menu.state)
   end
 end
 ```

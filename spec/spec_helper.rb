@@ -3,6 +3,13 @@ require 'redux_ussd'
 require 'coveralls'
 require 'simplecov'
 
+SimpleCov.start do
+  track_files '/lib/'
+  add_filter '/spec/'
+  add_filter '/vendor/'
+end
+Coveralls.wear!
+
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
   config.example_status_persistence_file_path = '.rspec_status'
@@ -13,11 +20,4 @@ RSpec.configure do |config|
   config.expect_with :rspec do |c|
     c.syntax = :expect
   end
-
-  SimpleCov.start do
-    track_files '/lib/'
-    add_filter '/spec/'
-    add_filter '/vendor/'
-  end
-  Coveralls.wear!
 end
