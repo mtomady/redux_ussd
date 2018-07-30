@@ -32,10 +32,6 @@ module ReduxUssd
       end
     end
 
-    def unsubscribe(&block)
-      @listeners.delete(block)
-    end
-
     def subscribe(&block)
       @listeners.push(block)
     end

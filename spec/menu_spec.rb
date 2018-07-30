@@ -21,9 +21,8 @@ RSpec.describe ReduxUssd::Menu do
     let(:block) { ->(_) {} }
 
     it 'should add a new screen' do
-      expect do
-        subject.add_screen(screen_name, &block)
-      end.to change { subject.screens.count }.by(1)
+      screen = subject.add_screen(screen_name, &block)
+      expect(screen).to be_instance_of(ReduxUssd::Components::Screen)
     end
   end
 

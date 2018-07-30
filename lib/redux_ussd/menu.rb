@@ -32,7 +32,7 @@ module ReduxUssd
       (@store.state[:navigation][:routes][current_screen] || []).empty?
     end
 
-    def add_screen(name, _options = {}, &block)
+    def add_screen(name, &block)
       screens[name] = Components::Screen.new(
         name: name,
         store: @store,
@@ -45,8 +45,6 @@ module ReduxUssd
     end
 
     private
-
-    attr_reader :session
 
     def push(screen)
       @store.dispatch(type: :push, screen: screen)

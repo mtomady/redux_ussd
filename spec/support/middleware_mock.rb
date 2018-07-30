@@ -1,14 +1,15 @@
 # frozen_string_literal: true
 
-module ReduxUssd
-  module Middlewares
-    module MiddlewareMock
-      def call(_)
-        lambda do |forward|
-          lambda do |action|
-            forward.call(action)
-          end
-        end
+class MiddlewareMock
+  attr_reader :store
+  attr_reader :action
+
+  def call(store)
+    lambda do |forward|
+      lambda do |action|
+        @store = store
+        @action = action
+        forward.call(action)
       end
     end
   end

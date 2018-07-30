@@ -21,6 +21,11 @@ RSpec.describe ReduxUssd::Store do
       [proc {}, proc {}]
     end
 
+    let(:middlewares) do
+      [MiddlewareMock.new,
+       MiddlewareMock.new]
+    end
+
     it 'should call the middlewares in the right order' do
     end
 

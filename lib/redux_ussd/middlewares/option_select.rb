@@ -31,8 +31,7 @@ module ReduxUssd
         end
       end
 
-      private
-
+      # TODO: Make private
       def self.routes_exist?(routes, current_screen)
         routes.key?(current_screen) && routes[current_screen]&.count&.positive?
       end
@@ -43,11 +42,9 @@ module ReduxUssd
       end
 
       def self.parse_input(text)
-        begin
-          Integer(text) - 1
-        rescue ArgumentError
-          nil
-        end
+        Integer(text) - 1
+      rescue ArgumentError
+        nil
       end
     end
   end

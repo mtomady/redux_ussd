@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'simplecov'
 
 SimpleCov.start do
@@ -11,6 +12,7 @@ Coveralls.wear!
 
 require 'bundler/setup'
 require 'redux_ussd'
+require 'support/middleware_mock'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
