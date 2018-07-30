@@ -10,7 +10,6 @@ module ReduxUssd
                                key: store.state[:prompt][:key],
                                value: action[:raw_input])
               end
-              nil
             else
               forward.call(action)
             end

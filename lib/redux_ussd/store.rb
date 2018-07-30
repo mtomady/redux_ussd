@@ -22,13 +22,11 @@ module ReduxUssd
       end
 
       # Run the chain and update the state
-      new_state = dispatch_lambda.call(action)
-      return unless new_state
-
-      @state = new_state
-
-      # Notify all listeners
-      @listeners.each(&:call)
+      dispatch_lambda.call(action)&.tap { |new_state|
+        @state = new_state
+        # Notify all listeners
+        @listeners.each(&:call)
+      }
     end
 
     def unsubscribe(&block)

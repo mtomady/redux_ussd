@@ -12,21 +12,13 @@ class HelloWorld
       option :deposit, text: 'Deposit money'
       option :send, text: 'Send money to someone else'
       option :balance, text: 'Check your balance'
-      after do |_|
-      end
-    end
-
-    screen :welcome do
-      option :back, text: 'Back'
-
-      after do |state|
-      end
     end
 
     screen :deposit do
       prompt :amount, text: 'How much?'
 
       after do |state|
+        print state
         push :deposit_success
       end
     end

@@ -5,7 +5,7 @@ RSpec.describe ReduxUssd::Menu do
   subject { menu }
 
   before(:each) do
-    allow_any_instance_of(ReduxUssd::Store).to receive(:new).and_return(store)
+    allow(ReduxUssd::Store).to receive(:new).and_return(store)
     allow(store).to receive(:dispatch)
   end
 

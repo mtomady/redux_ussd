@@ -41,14 +41,13 @@ module ReduxUssd
                          middlewares,
                          reducers)
 
-      @current_screen = :index
-
+      @current_screen = @initial_state[:navigation][:current_screen]
       @store.subscribe do
-        current_screen = @store.state[:navigation][:current_screen]
-        screens[@current_screen].after.call(state)
-        # end
+        @current_screen = @store.state[:navigation][:current_screen].tap do |new_screen|
+          next if new_screen == @current_screen
+          screens[@current_screen].after&.call({})
+        end
       end
-
     end
 
     def render
