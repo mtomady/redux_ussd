@@ -8,7 +8,7 @@ RSpec.describe ReduxUssd::Middlewares::OptionSelect do
       navigation: {
         current_screen: :welcome,
         routes: {
-          welcome: %i(first_screen second_screen)
+          welcome: %i[first_screen second_screen]
         }
       }
     }
@@ -43,7 +43,9 @@ RSpec.describe ReduxUssd::Middlewares::OptionSelect do
       let(:action) { { type: :another_action } }
 
       it 'forward the action to defined block' do
-        expect { subject.call(store).call(forward).call(action) }.to raise_error(forward_error)
+        expect do
+          subject.call(store).call(forward).call(action)
+        end.to raise_error(forward_error)
       end
     end
   end

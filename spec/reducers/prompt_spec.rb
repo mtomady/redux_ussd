@@ -9,16 +9,16 @@ RSpec.describe ReduxUssd::Reducers::Prompt do
 
       it 'should update the target values' do
         expect(subject.call(action, state)).to eq(target: :a_target,
-                                                  values: { a_target: 'raw input' })
+                                                  values: {
+                                                    a_target: 'raw input'
+                                                  })
       end
 
       context 'with existing values' do
         it 'should not replace other values' do
-
         end
 
         it 'should replace old values' do
-
         end
       end
     end
@@ -27,8 +27,10 @@ RSpec.describe ReduxUssd::Reducers::Prompt do
       let(:action) { { type: :register_prompt, target: :some_target } }
 
       it 'should update the :target' do
-        expect(subject.call(action, state)).to eq(target: :some_target, values: {})
-        expect(subject.call(action, state)).not_to eq(target: :some_other_target, values: {})
+        expect(subject.call(action, state)).to eq(target: :some_target,
+                                                  values: {})
+        expect(subject.call(action, state)).not_to eq(target: :other_target,
+                                                      values: {})
       end
     end
 
@@ -36,7 +38,8 @@ RSpec.describe ReduxUssd::Reducers::Prompt do
       let(:action) { { type: :something, screen: :new_screen_name } }
 
       it 'should not update the state' do
-        expect(subject.call(action, state)).to eq(target: :a_target, values: {})
+        expect(subject.call(action, state)).to eq(target: :a_target,
+                                                  values: {})
       end
     end
   end

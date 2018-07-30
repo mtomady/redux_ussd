@@ -3,26 +3,26 @@ RSpec.describe ReduxUssd::Store do
   let(:reducers) { [] }
   let(:listeners) { [] }
   let(:initial_state) { {} }
-  let(:store) { described_class.new(initial_state,
-                                    reducers,
-                                    middlewares,
-                                    listeners)}
+  let(:store) do
+    described_class.new(initial_state,
+                        reducers,
+                        middlewares,
+                        listeners)
+  end
   subject { store }
 
   describe '#state' do
-
   end
 
   describe '#dispatch' do
-    let(:reducers) {
-      [proc { }, proc { }]
-    }
+    let(:reducers) do
+      [proc {}, proc {}]
+    end
     it 'should call the middlewares in the right order' do
-
     end
 
     it 'should call the reducers' do
-      expect { su}
+      expect { su }
     end
 
     context 'new state is nil' do
@@ -31,7 +31,7 @@ RSpec.describe ReduxUssd::Store do
       end
 
       it 'should not update the state' do
-        expect { subject.dispatch(type: :push) }.to_not change { store.state }
+        expect { subject.dispatch(type: :push) }.to_not change(store, :state)
         expect(subject.state).not_to be_nil
       end
 
@@ -45,7 +45,7 @@ RSpec.describe ReduxUssd::Store do
     end
 
     context 'new state is not nil' do
-      let(:new_state) { {state: '1'} }
+      let(:new_state) { { state: '1' } }
 
       before(:each) do
         allow(subject).to receive(:reduce).and_return(new_state)
@@ -60,7 +60,9 @@ RSpec.describe ReduxUssd::Store do
       end
 
       it 'should update the state' do
-        expect { subject.dispatch(type: :push) }.to change { store.state }.to(new_state)
+        expect do
+          subject.dispatch(type: :push)
+        end.to change { store.state }.to(new_state)
       end
     end
   end

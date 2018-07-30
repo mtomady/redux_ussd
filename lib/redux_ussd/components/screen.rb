@@ -5,7 +5,9 @@ require 'forwardable'
 
 module ReduxUssd
   module Components
+    # Container component for prompts, text and options
     class Screen < Base
+      # Proxies the DSL methods to screen methods
       class Proxy
         extend Forwardable
 
@@ -40,7 +42,8 @@ module ReduxUssd
         @components.push(Option.new(
                            option_index: option_components.count + 1,
                            name: name,
-                           text: options[:text]))
+                           text: options[:text]
+        ))
         @store.dispatch(type: :register_route,
                         screen: @name,
                         target: name)

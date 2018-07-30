@@ -7,7 +7,7 @@ class HelloWorld
   include ReduxUssd
 
   menu do
-    screen :index, initial: true do
+    screen :index do
       text 'Welcome to test service'
       option :deposit, text: 'Deposit money'
       option :send, text: 'Send money to someone else'
@@ -17,8 +17,7 @@ class HelloWorld
     screen :deposit do
       prompt :amount, text: 'How much?'
 
-      after do |state|
-        print state
+      after do |_state|
         push :deposit_success
       end
     end
@@ -29,25 +28,17 @@ class HelloWorld
       after do |state|
       end
     end
-
-    def initial_state
-      {
-          navigation: {
-              current_screen: :index,
-              routes: {}
-          },
-          prompt: {}
-      }
-    end
   end
 end
 
 hello_world = HelloWorld.new
+hello_world.setup_menu
 stop = false
 until stop
-  #stop = hello_world.menu.end?
+  # stop = hello_world.menu.end?
   puts hello_world.menu.render
   print '>> '
   input = gets.strip
   hello_world.menu.handle_raw_input(input)
+  hello_world.menu.state
 end

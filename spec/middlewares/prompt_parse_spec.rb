@@ -23,9 +23,10 @@ RSpec.describe ReduxUssd::Middlewares::PromptParse do
 
       it 'should dispatch an action' do
         subject.call(store).call(forward).call(action)
-        expect(store).to have_received(:dispatch).with(type: :fill_prompt,
-                                                       key: 'test',
-                                                       value: 'this is raw input')
+        expect(store).to have_received(:dispatch)
+          .with(type: :fill_prompt,
+                key: 'test',
+                value: 'this is raw input')
       end
     end
 
@@ -33,7 +34,9 @@ RSpec.describe ReduxUssd::Middlewares::PromptParse do
       let(:action) { { type: :another_action } }
 
       it 'forward the action to defined block' do
-        expect { subject.call(store).call(forward).call(action) }.to raise_error(forward_error)
+        expect do
+          subject.call(store).call(forward).call(action)
+        end.to raise_error(forward_error)
       end
     end
   end

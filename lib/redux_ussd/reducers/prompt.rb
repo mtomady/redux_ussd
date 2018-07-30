@@ -1,5 +1,6 @@
 module ReduxUssd
   module Reducers
+    # Registers and sets variables from a prompt input
     class Prompt
       def self.call(action, state)
         if action[:type] == :set_prompt_value

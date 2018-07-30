@@ -15,8 +15,9 @@ RSpec.configure do |config|
   end
 
   SimpleCov.start do
-    add_filter "/spec/"
-    add_filter "/vendor/"
+    track_files '/lib/'
+    add_filter '/spec/'
+    add_filter '/vendor/'
   end
   Coveralls.wear!
 end

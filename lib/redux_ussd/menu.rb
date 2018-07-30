@@ -19,16 +19,7 @@ module ReduxUssd
       def_delegator :@menu, :state, :state
     end
 
-    attr_writer :initial_state
-
-    def initialize
-      @initial_state = {
-          navigation: {
-              current_screen: :index,
-              routes: {}
-          },
-          prompt: {}
-      }
+    def initialize(initial_state = {})
       middlewares = [
           Middlewares::OptionSelect,
           Middlewares::PromptParse
@@ -37,15 +28,15 @@ module ReduxUssd
           navigation: Reducers::Navigation,
           prompt: Reducers::Prompt
       }
-      @store = Store.new(@initial_state,
+      @store = Store.new(initial_state,
                          middlewares,
                          reducers)
 
-      @current_screen = @initial_state[:navigation][:current_screen]
+      @current_screen = initial_state[:navigation][:current_screen]
       @store.subscribe do
         @current_screen = @store.state[:navigation][:current_screen].tap do |new_screen|
           next if new_screen == @current_screen
-          screens[@current_screen].after&.call({})
+          screens[@current_screen].after&.call(@store.state)
         end
       end
     end

@@ -1,5 +1,6 @@
 module ReduxUssd
   module Components
+    # Models an input prompt with a text.
     class Prompt < Base
       def initialize(options = {})
         super(options)

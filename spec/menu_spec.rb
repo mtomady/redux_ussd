@@ -11,7 +11,7 @@ RSpec.describe ReduxUssd::Menu do
 
   describe '#add_screen' do
     let(:name) { :new_screen }
-    let(:block) { lambda { |_| } }
+    let(:block) { ->(_) {} }
 
     # it 'should add a new screen' do
     #   subject.add_screen(:new_screen, &block)
@@ -28,7 +28,7 @@ RSpec.describe ReduxUssd::Menu do
   end
 
   describe '#handle_raw_input' do
-    let(:raw_input) { 'a random text'}
+    let(:raw_input) { 'a random text' }
 
     it 'should dispatch :handle_raw_input action' do
       subject.handle_raw_input(raw_input)
@@ -38,7 +38,7 @@ RSpec.describe ReduxUssd::Menu do
   end
 
   describe '#state' do
-    let(:state) { {var: '1'} }
+    let(:state) { { var: '1' } }
 
     it 'should return the stores state' do
       allow(store).to receive(:state).and_return(state)

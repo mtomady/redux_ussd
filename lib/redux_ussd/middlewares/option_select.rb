@@ -8,7 +8,6 @@ module ReduxUssd
               forward.call(action)
               return
             end
-
             routes = store.state[:navigation][:routes]
             current_screen = store.state[:navigation][:current_screen]
 
@@ -30,8 +29,6 @@ module ReduxUssd
             else
               store.dispatch(type: :push, screen: :option_not_found)
             end
-
-
           end
         end
       end

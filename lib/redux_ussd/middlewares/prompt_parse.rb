@@ -1,5 +1,7 @@
 module ReduxUssd
   module Middlewares
+    # Parses raw text input and assigns the text
+    # to predefined store variable
     module PromptParse
       def self.call(store)
         lambda do |forward|

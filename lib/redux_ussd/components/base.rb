@@ -1,5 +1,7 @@
 module ReduxUssd
   module Components
+    # Abstract base component that assigns a name
+    # from the constructor options
     class Base
       def initialize(options = {})
         @name = options[:name]
