@@ -1,16 +1,9 @@
 # frozen_string_literal: true
+require 'coveralls'
+Coveralls.wear!
 
 require 'bundler/setup'
 require 'redux_ussd'
-require 'coveralls'
-require 'simplecov'
-
-SimpleCov.start do
-  track_files '/lib/'
-  add_filter '/spec/'
-  add_filter '/vendor/'
-end
-Coveralls.wear!
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

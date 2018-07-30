@@ -15,26 +15,38 @@ module ReduxUssd
             routes = store.state[:navigation][:routes]
             current_screen = store.state[:navigation][:current_screen]
 
-            unless routes.key?(current_screen) || routes[current_screen]&.
-                count&.positive?
+            unless routes_exist?(routes, current_screen)
               forward.call(action) # TODO: Test
               return
             end
 
-            begin
-              option_index = Integer(action[:raw_input]) - 1
-            rescue ArgumentError
-              store.dispatch(type: :push, screen: :option_not_found)
-            end
-
-            if option_index < routes[current_screen].count &&
-               option_index >= 0
-              screen = routes[current_screen][option_index]
+            option_index = parse_input(action[:raw_input])
+            screen = screen_at(routes, current_screen, option_index)
+            if screen
               store.dispatch(type: :push, screen: screen)
             else
               store.dispatch(type: :push, screen: :option_not_found)
             end
           end
+        end
+      end
+
+      private
+
+      def self.routes_exist?(routes, current_screen)
+        routes.key?(current_screen) && routes[current_screen]&.count&.positive?
+      end
+
+      def self.screen_at(routes, current_screen, index)
+        return nil unless index < routes[current_screen].count && index >= 0
+        routes[current_screen][index]
+      end
+
+      def self.parse_input(text)
+        begin
+          Integer(text) - 1
+        rescue ArgumentError
+          nil
         end
       end
     end
