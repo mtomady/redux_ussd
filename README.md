@@ -43,7 +43,6 @@ class HelloWorldMenu
         
         after do |state|
             push state[:options][:option]
-            logger.info("New screen: #{new_state[:navigation][:screen]}")
         end
     end
     
