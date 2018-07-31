@@ -39,10 +39,11 @@ class HelloWorldMenu
     screen :welcome do
         text "Welcome #{session[:user].name}"
         option :balance, text: 'Show current balance'
-        option :transfer, text: 'Transfer money'
+        option :transfer, text: 'Transfer money'  if session[:user].can_transfer_money?
         
-        after do |new_state|
-          logger.info("New screen: #{new_state[:navigation][:screen]}")
+        after do |state|
+            push state[:options][:option]
+            logger.info("New screen: #{new_state[:navigation][:screen]}")
         end
     end
     
