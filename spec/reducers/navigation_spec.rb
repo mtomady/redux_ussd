@@ -24,42 +24,5 @@ RSpec.describe ReduxUssd::Reducers::Navigation do
                  routes: {})
       end
     end
-
-    context 'action is :register_route' do
-      let(:action) do
-        { type: :register_route, screen: :start_screen,
-          target: :end_screen }
-      end
-
-      it 'should not update the routes' do
-        expect(subject.call(action, state))
-          .to eq(current_screen: :old_screen_name,
-                 routes: {
-                   start_screen: [:end_screen]
-                 })
-      end
-
-      context 'routes are existing' do
-        let(:state) do
-          { current_screen: :old_screen_name, routes: {
-            start_screen: [:end_screen_one]
-          } }
-        end
-
-        let(:action) do
-          { type: :register_route,
-            screen: :start_screen,
-            target: :end_screen_two }
-        end
-
-        it 'should not update the routes' do
-          expect(subject.call(action, state))
-            .to eq(current_screen: :old_screen_name,
-                   routes: {
-                     start_screen: %i[end_screen_one end_screen_two]
-                   })
-        end
-      end
-    end
   end
 end

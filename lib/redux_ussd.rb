@@ -10,7 +10,7 @@ module ReduxUssd
     @menu ||= begin
       new_state = state || initial_state
       ReduxUssd::Menu.new(new_state).tap do |menu|
-        Menu::Proxy.new(menu).instance_eval(&self.class.menu)
+        Menu::DslProxy.new(menu).instance_eval(&self.class.menu)
       end
     end
   end

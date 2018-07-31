@@ -7,21 +7,22 @@ module ReduxUssd
       def self.call(store)
         lambda do |forward|
           lambda do |action|
-            if action[:type] == :handle_raw_input
-              options = store.state[:options]
-              current_screen = store.state[:navigation][:current_screen]
-
-              if options_exist?(options, current_screen)
-                option_index = parse_input(action[:raw_input])
-                option = screen_at(options, current_screen, option_index)
-                store.dispatch(type: :select_option, screen: current_screen,
-                               option: option)
-              end
-            end
-
+            handle_raw_input(store, action) if action[:type] ==
+                                               :handle_raw_input
             forward.call(action) # TODO: Test
           end
         end
+      end
+
+      def self.handle_raw_input(store, action)
+        options = store.state[:options]
+        current_screen = store.state[:navigation][:current_screen]
+
+        return unless options_exist?(options, current_screen)
+        option_index = parse_input(action[:raw_input])
+        option = screen_at(options, current_screen, option_index)
+        store.dispatch(type: :select_option, screen: current_screen,
+                       option: option)
       end
 
       # TODO: Make private

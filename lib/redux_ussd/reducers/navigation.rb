@@ -2,7 +2,7 @@
 
 module ReduxUssd
   module Reducers
-    # Handles navigation related action such as :push and :register_route
+    # Handles navigation related action such as :push
     class Navigation
       def self.call(action, state)
         case action[:type]

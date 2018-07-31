@@ -45,6 +45,7 @@ RSpec.describe ReduxUssd::Components::Screen do
       it 'should dispatch a :register_prompt action' do
         subject.render
         expect(store).to have_received(:dispatch).with(type: :register_prompt,
+                                                       screen: name,
                                                        target: :hello_key)
       end
     end
@@ -70,12 +71,12 @@ RSpec.describe ReduxUssd::Components::Screen do
 
       it 'should dispatch :register_prompt actions' do
         subject.render
-        expect(store).to have_received(:dispatch).with(type: :register_route,
+        expect(store).to have_received(:dispatch).with(type: :register_option,
                                                        screen: :welcome_screen,
-                                                       target: :option_1)
-        expect(store).to have_received(:dispatch).with(type: :register_route,
+                                                       option: :option_1)
+        expect(store).to have_received(:dispatch).with(type: :register_option,
                                                        screen: :welcome_screen,
-                                                       target: :option_2)
+                                                       option: :option_2)
       end
     end
   end

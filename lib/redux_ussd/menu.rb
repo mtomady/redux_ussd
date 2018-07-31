@@ -32,7 +32,7 @@ module ReduxUssd
 
     def end?
       current_screen = @store.state[:navigation][:current_screen]
-      !screens[current_screen].has_prompt_or_options?
+      !screens[current_screen].prompt_or_options?
     end
 
     def add_screen(name, &block)
@@ -54,11 +54,6 @@ module ReduxUssd
       @store.dispatch(type: :push, screen: screen)
     end
 
-    # def force_end
-    #   # TODO: Tets
-    #   @store.dispatch(type: :end)
-    # end
-
     def screens
       @screens ||= {}
     end
@@ -79,7 +74,7 @@ module ReduxUssd
     end
 
     # Proxies the DSL methods to menu methods
-    class Proxy
+    class DslProxy
       extend Forwardable
 
       def initialize(menu)

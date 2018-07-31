@@ -9,17 +9,20 @@ module ReduxUssd
         lambda do |forward|
           lambda do |action|
             if action[:type] == :handle_raw_input
-              current_screen = store.state[:navigation][:current_screen]
-              target = store.state[:prompt][:targets][current_screen]
-              if target
-                store.dispatch(type: :set_prompt_value, target: target,
-                               value: action[:raw_input])
-              end
+              handle_raw_input(store, action)
             else
               forward.call(action)
             end
           end
         end
+      end
+
+      def self.handle_raw_input(store, action)
+        current_screen = store.state[:navigation][:current_screen]
+        target = store.state[:prompt][:targets][current_screen]
+        return unless target
+        store.dispatch(type: :set_prompt_value, target: target,
+                       value: action[:raw_input])
       end
     end
   end

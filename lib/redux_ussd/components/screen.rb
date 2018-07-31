@@ -18,7 +18,7 @@ module ReduxUssd
 
       def render
         @components = []
-        Proxy.new(self).instance_eval(&@block)
+        DslProxy.new(self).instance_eval(&@block)
         @components.map(&:render).join("\n")
       end
 
@@ -60,8 +60,8 @@ module ReduxUssd
         @store.dispatch(type: :push, screen: screen)
       end
 
-      def has_prompt_or_options?
-        option_components.count > 0 || prompt_components.count > 0
+      def prompt_or_options?
+        option_components.count.positive? || prompt_components.count.positive?
       end
 
       private
@@ -75,7 +75,7 @@ module ReduxUssd
       end
 
       # Proxies the DSL methods to screen methods
-      class Proxy
+      class DslProxy
         extend Forwardable
 
         def initialize(screen)
