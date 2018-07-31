@@ -30,9 +30,9 @@ module ReduxUssd
                            name: name,
                            text: options[:text]
         ))
-        @store.dispatch(type: :register_route,
+        @store.dispatch(type: :register_option,
                         screen: @name,
-                        target: name)
+                        option: name)
       end
 
       def add_text(text)
@@ -42,6 +42,7 @@ module ReduxUssd
       def add_prompt(name, options = {})
         @components.push(Prompt.new(name: name, text: options[:text]))
         @store.dispatch(type: :register_prompt,
+                        screen: @name, # TODO: RENMAE
                         target: name)
       end
 
@@ -55,10 +56,22 @@ module ReduxUssd
         @store.state
       end
 
+      def dispatch_push(screen)
+        @store.dispatch(type: :push, screen: screen)
+      end
+
+      def has_prompt_or_options?
+        option_components.count > 0 || prompt_components.count > 0
+      end
+
       private
 
       def option_components
         @components.select { |c| c.is_a?(Option) }
+      end
+
+      def prompt_components
+        @components.select { |c| c.is_a?(Prompt) }
       end
 
       # Proxies the DSL methods to screen methods
@@ -70,7 +83,7 @@ module ReduxUssd
         end
 
         def_delegator :@screen, :add_option, :option
-        def_delegator :@screen, :add_push, :push
+        def_delegator :@screen, :dispatch_push, :push
         def_delegator :@screen, :add_text, :text
         def_delegator :@screen, :add_prompt, :prompt
         def_delegator :@screen, :register_after, :after

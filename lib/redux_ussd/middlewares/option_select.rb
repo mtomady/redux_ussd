@@ -7,38 +7,32 @@ module ReduxUssd
       def self.call(store)
         lambda do |forward|
           lambda do |action|
-            unless action[:type] == :handle_raw_input
-              forward.call(action)
-              return
+            if action[:type] == :handle_raw_input
+              options = store.state[:options]
+              current_screen = store.state[:navigation][:current_screen]
+
+              if options_exist?(options, current_screen)
+                option_index = parse_input(action[:raw_input])
+                option = screen_at(options, current_screen, option_index)
+                store.dispatch(type: :select_option, screen: current_screen,
+                               option: option)
+              end
             end
 
-            routes = store.state[:navigation][:routes]
-            current_screen = store.state[:navigation][:current_screen]
-
-            unless routes_exist?(routes, current_screen)
-              forward.call(action) # TODO: Test
-              return
-            end
-
-            option_index = parse_input(action[:raw_input])
-            screen = screen_at(routes, current_screen, option_index)
-            if screen
-              store.dispatch(type: :push, screen: screen)
-            else
-              store.dispatch(type: :push, screen: :option_not_found)
-            end
+            forward.call(action) # TODO: Test
           end
         end
       end
 
       # TODO: Make private
-      def self.routes_exist?(routes, current_screen)
-        routes.key?(current_screen) && routes[current_screen]&.count&.positive?
+      def self.options_exist?(options, current_screen)
+        options.key?(current_screen) &&
+          options[current_screen]&.count&.positive?
       end
 
-      def self.screen_at(routes, current_screen, index)
-        return nil unless index < routes[current_screen].count && index >= 0
-        routes[current_screen][index]
+      def self.screen_at(options, current_screen, index)
+        return nil unless index < options[current_screen].count && index >= 0
+        options[current_screen][index]
       end
 
       def self.parse_input(text)

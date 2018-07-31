@@ -35,10 +35,13 @@ module ReduxUssd
   def initial_state
     {
       navigation: {
-        current_screen: :index,
-        routes: {}
+        current_screen: :index
       },
-      prompt: {}
+      options: {},
+      prompt: {
+        targets: {},
+        values: {}
+      }
     }
   end
 end

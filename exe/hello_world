@@ -8,37 +8,45 @@ class HelloWorld
 
   menu do
     screen :index do
+      text 'Accept terms and conditions?'
+      option :yes, text: 'Yes'
+      option :no, text: 'No'
+
+      after do |state|
+        push :welcome
+      end
+    end
+
+    screen :welcome do
       text 'Welcome to test service'
       option :deposit, text: 'Deposit money'
-      option :send, text: 'Send money to someone else'
-      option :balance, text: 'Check your balance'
+      option :balance, text: 'Balance'
+
+      after do |state|
+        push state[:options][:option]
+      end
     end
 
     screen :deposit do
       prompt :amount, text: 'How much?'
 
-      after do |_state|
+      after do |state|
         push :deposit_success
       end
     end
 
     screen :deposit_success do
-      text "Successfully deposited #{state[:prompt][:amount]}AR"
-
-      after do |state|
-      end
+      text "Successfully deposited #{state[:prompt][:values][:amount]}AR"
     end
   end
 end
 
 hello_world = HelloWorld.new
 hello_world.setup_menu
-stop = false
-until stop
-  # stop = hello_world.menu.end?
+while true
   puts hello_world.menu.render
+  break if hello_world.menu.end?
   print '>> '
   input = gets.strip
   hello_world.menu.handle_raw_input(input)
-  hello_world.menu.state
 end

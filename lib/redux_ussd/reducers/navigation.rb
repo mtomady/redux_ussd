@@ -8,9 +8,6 @@ module ReduxUssd
         case action[:type]
         when :push
           state.merge(current_screen: action[:screen])
-        when :register_route
-          routes = (state[:routes][action[:screen]] || []) + [action[:target]]
-          state.merge(routes: state[:routes].merge(action[:screen] => routes))
         else
           state
         end

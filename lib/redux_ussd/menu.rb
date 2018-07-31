@@ -4,6 +4,7 @@ require 'redux_ussd/components/screen'
 require 'redux_ussd/store'
 require 'redux_ussd/reducers/navigation'
 require 'redux_ussd/reducers/prompt'
+require 'redux_ussd/reducers/option'
 require 'redux_ussd/middlewares/option_select'
 require 'redux_ussd/middlewares/prompt_parse'
 require 'redux_ussd/middlewares/prompt_parse'
@@ -25,11 +26,13 @@ module ReduxUssd
 
     def handle_raw_input(raw_input)
       @store.dispatch(type: :handle_raw_input, raw_input: raw_input)
+      current_screen = @store.state[:navigation][:current_screen]
+      screens[current_screen].after&.call(@store.state)
     end
 
     def end?
       current_screen = @store.state[:navigation][:current_screen]
-      (@store.state[:navigation][:routes][current_screen] || []).empty?
+      !screens[current_screen].has_prompt_or_options?
     end
 
     def add_screen(name, &block)
@@ -47,8 +50,14 @@ module ReduxUssd
     private
 
     def push(screen)
+      # TODO: Test
       @store.dispatch(type: :push, screen: screen)
     end
+
+    # def force_end
+    #   # TODO: Tets
+    #   @store.dispatch(type: :end)
+    # end
 
     def screens
       @screens ||= {}
@@ -64,6 +73,7 @@ module ReduxUssd
     def reducers
       {
         navigation: Reducers::Navigation,
+        options: Reducers::Option,
         prompt: Reducers::Prompt
       }
     end

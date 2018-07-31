@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'redux_ussd/reducers/navigation'
+require 'deep_merge'
 
 module ReduxUssd
   # Dispatches action and mutates state using middlewares and reducers
@@ -27,6 +28,7 @@ module ReduxUssd
       # Run the chain and update the state
       dispatch_lambda.call(action)&.tap do |new_state|
         @state = new_state
+
         # Notify all listeners
         @listeners.each(&:call)
       end

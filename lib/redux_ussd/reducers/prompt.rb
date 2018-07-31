@@ -5,10 +5,13 @@ module ReduxUssd
     # Registers and sets variables from a prompt input
     class Prompt
       def self.call(action, state)
-        if action[:type] == :set_prompt_value
-          state.merge(values: { state[:target] => action[:value] }) # FIX merge
-        elsif action[:type] == :register_prompt
-          state.merge(target: action[:target])
+        case action[:type]
+        when :set_prompt_value
+          values = { values: { action[:target] => action[:value] } }
+          state.deep_merge(values)
+        when :register_prompt
+          targets = { targets: { action[:screen] => action[:target] } }
+          state.deep_merge(targets)
         else
           state
         end
