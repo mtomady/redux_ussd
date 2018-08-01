@@ -8,7 +8,9 @@ RSpec.describe ReduxUssd::Menu do
       navigation: { current_screen: nil, routes: {} }
     }
   end
-  let(:menu) { ReduxUssd::Menu.new(initial_state) }
+  let(:session) { { msisdn: '+491111111111' }}
+  let(:menu) { ReduxUssd::Menu.new(session: session,
+                                   state: initial_state) }
   subject { menu }
 
   before(:each) do
@@ -19,7 +21,7 @@ RSpec.describe ReduxUssd::Menu do
   describe '#add_screen' do
     let(:screen_name) { :new_screen }
     let(:block) { ->(_) {} }
-
+  
     it 'should add a new screen' do
       screen = subject.add_screen(screen_name, &block)
       expect(screen).to be_instance_of(ReduxUssd::Components::Screen)
@@ -61,6 +63,38 @@ RSpec.describe ReduxUssd::Menu do
       allow(store).to receive(:state).and_return(state)
       expect(subject.state).to eq(state)
       expect(store).to have_received(:state).once
+    end
+  end
+
+  describe '#end?' do
+    context 'store state for :end is true' do
+      before(:each) do
+        allow(store).to receive_message_chain(:state, :[])
+                            .with(:end)
+                            .and_return(true)
+      end
+
+      it 'should return true' do
+        expect(subject.end?).to be_truthy
+      end
+    end
+
+    context 'store state for :end is false' do
+      before(:each) do
+        allow(store).to receive_message_chain(:state, :[])
+                            .with(:end)
+                            .and_return(false)
+      end
+
+      it 'should return false' do
+        expect(subject.end?).to be_falsey
+      end
+    end
+  end
+
+  describe '#session' do
+    it 'should equal the passed session' do
+      expect(subject.session).to eq(session)
     end
   end
 end

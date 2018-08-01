@@ -18,19 +18,41 @@ RSpec.describe ReduxUssd::Store do
 
   describe '#dispatch' do
     let(:reducers) do
-      [proc {}, proc {}]
+      { type_1: proc {}, type_2: proc {}}
     end
 
-    let(:middlewares) do
-      [MiddlewareMock.new,
-       MiddlewareMock.new]
+    describe 'middlewares' do
+      context 'first middleware forwards' do
+
+        let(:middlewares) do
+          [MiddlewareMock.new(true),
+           MiddlewareMock.new]
+        end
+
+        it 'should call both middlewares' do
+          subject.dispatch(type: :test)
+          expect(middlewares[0]).to have_received(:call)
+          expect(middlewares[1]).to have_received(:call)
+        end
+      end
+
+      context 'first middleware does not forward' do
+        let(:middlewares) do
+          [MiddlewareMock.new(true),
+           MiddlewareMock.new]
+        end
+
+        it 'should only call the first middleware' do
+          subject.dispatch(type: :test)
+          expect(middlewares[0]).to have_received(:call)
+          expect(middlewares[1]).not_to have_received(:call)
+        end
+      end
     end
 
-    it 'should call the middlewares in the right order' do
-    end
 
     it 'should call the reducers' do
-      expect { su }
+
     end
 
     context 'new state is nil' do

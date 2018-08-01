@@ -44,9 +44,10 @@ end
 hello_world = HelloWorld.new
 hello_world.setup_menu
 while true
-  puts hello_world.menu.render
-  break if hello_world.menu.end?
   print '>> '
   input = gets.strip
   hello_world.menu.handle_raw_input(input)
+
+  puts hello_world.menu.render
+  break if hello_world.menu.end?
 end

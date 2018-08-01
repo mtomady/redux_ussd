@@ -5,18 +5,20 @@ require 'redux_ussd/store'
 require 'redux_ussd/reducers/navigation'
 require 'redux_ussd/reducers/prompt'
 require 'redux_ussd/reducers/option'
+require 'redux_ussd/reducers/end'
 require 'redux_ussd/middlewares/option_select'
 require 'redux_ussd/middlewares/prompt_parse'
-require 'redux_ussd/middlewares/prompt_parse'
+require 'redux_ussd/middlewares/end'
 
 module ReduxUssd
   # Configures a menu, setups all view components and
   # handles inputs using a redux store
   class Menu
-    def initialize(initial_state = {})
-      @store = Store.new(initial_state,
+    def initialize(options = {})
+      @store = Store.new(options[:state] || {},
                          middlewares,
                          reducers)
+      @session = options[:session] || {}
     end
 
     def render
@@ -28,11 +30,11 @@ module ReduxUssd
       @store.dispatch(type: :handle_raw_input, raw_input: raw_input)
       current_screen = @store.state[:navigation][:current_screen]
       screens[current_screen].after&.call(@store.state)
+      @store.dispatch(type: :force_end) unless screens[current_screen].prompt_or_options?
     end
 
     def end?
-      current_screen = @store.state[:navigation][:current_screen]
-      !screens[current_screen].prompt_or_options?
+      @store.state[:end]
     end
 
     def add_screen(name, &block)
@@ -46,6 +48,8 @@ module ReduxUssd
     def state
       @store.state
     end
+
+    attr_reader :session # TODO
 
     private
 
@@ -61,7 +65,8 @@ module ReduxUssd
     def middlewares
       [
         Middlewares::OptionSelect,
-        Middlewares::PromptParse
+        Middlewares::PromptParse,
+        Middlewares::End
       ]
     end
 
@@ -69,7 +74,8 @@ module ReduxUssd
       {
         navigation: Reducers::Navigation,
         options: Reducers::Option,
-        prompt: Reducers::Prompt
+        prompt: Reducers::Prompt,
+        end: Reducers::End
       }
     end
 
@@ -83,6 +89,9 @@ module ReduxUssd
 
       def_delegator :@menu, :add_screen, :screen
       def_delegator :@menu, :state, :state
+      def_delegator :@menu, :session, :session
     end
   end
 end
+
+# TODO: Intial scrren

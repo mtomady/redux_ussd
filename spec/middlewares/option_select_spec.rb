@@ -8,15 +8,12 @@ RSpec.describe ReduxUssd::Middlewares::OptionSelect do
   let(:state) do
     {
       navigation: {
-        current_screen: :welcome,
-        routes: {
-          welcome: %i[first_screen second_screen]
-        }
+        current_screen: :welcome
       }
     }
   end
 
-  describe '#call' do
+  describe '.call' do
     before(:each) do
       allow(store).to receive(:state).and_return(state)
       allow(store).to receive(:dispatch)
@@ -29,9 +26,6 @@ RSpec.describe ReduxUssd::Middlewares::OptionSelect do
       let(:action) do
         { type: :handle_raw_input,
           raw_input: '1' }
-      end
-
-      context 'no routes for options defined' do
       end
 
       it 'should dispatch an action' do

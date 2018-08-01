@@ -55,11 +55,15 @@ RSpec.describe ReduxUssd do
       klass.menu {} # Setup an empty menu
     end
 
+    context 'session is given' do
+      # TODO
+    end
+
     context 'initial state is given' do
       let(:initial_state) { { some_state: 'test' } }
 
       it 'should setup the menu with the given state' do
-        expect { subject.setup_menu(initial_state) }.to change(subject, :menu)
+        expect { subject.setup_menu(state: initial_state) }.to change(subject, :menu)
         expect(subject.menu.state).to eq(initial_state)
       end
     end
@@ -69,7 +73,8 @@ RSpec.describe ReduxUssd do
         expect { subject.setup_menu }.to change(subject, :menu)
         expect(subject.menu.state).to eq(navigation: { current_screen: :index },
                                          options: {},
-                                         prompt: { targets: {}, values: {} })
+                                         prompt: { targets: {}, values: {} },
+                                         end: false)
       end
     end
 

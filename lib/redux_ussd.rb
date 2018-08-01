@@ -6,10 +6,10 @@ require 'redux_ussd/store'
 
 # Makes the menu DSL accessible to a class
 module ReduxUssd
-  def setup_menu(state = nil)
+  def setup_menu(options = {})
     @menu ||= begin
-      new_state = state || initial_state
-      ReduxUssd::Menu.new(new_state).tap do |menu|
+      options[:state] = options[:state] || initial_state
+      ReduxUssd::Menu.new(options).tap do |menu|
         Menu::DslProxy.new(menu).instance_eval(&self.class.menu)
       end
     end
@@ -41,7 +41,8 @@ module ReduxUssd
       prompt: {
         targets: {},
         values: {}
-      }
+      },
+      end: false
     }
   end
 end
