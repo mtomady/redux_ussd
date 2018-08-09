@@ -27,7 +27,7 @@ module ReduxUssd
     def handle_raw_input(raw_input)
       @store.dispatch(type: :handle_raw_input, raw_input: raw_input)
       current_screen = @store.state[:navigation][:current_screen]
-      screens[current_screen].after&.call(@store.state)
+      screens[current_screen]&.after&.call(@store.state)
     end
 
     def end?
