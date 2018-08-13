@@ -8,7 +8,7 @@ require 'redux_ussd/store'
 module ReduxUssd
   def setup_menu(options = {})
     @menu ||= begin
-      options[:state] = options[:state] || initial_state
+      options[:state] = options[:state] || ReduxUssd.initial_state
       ReduxUssd::Menu.new(options).tap do |menu|
         Menu::DslProxy.new(menu).instance_eval(&self.class.menu)
       end
@@ -32,7 +32,7 @@ module ReduxUssd
     end
   end
 
-  def initial_state
+  def self.initial_state
     {
       navigation: :index,
       options: {},
