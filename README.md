@@ -39,10 +39,10 @@ class HelloWorldMenu
     screen :welcome do
         text "Welcome #{session[:user].name}"
         option :balance, text: 'Show current balance'
-        option :transfer, text: 'Transfer money'
+        option :transfer, text: 'Transfer money'  if session[:user].can_transfer_money?
         
-        after do |new_state|
-          logger.info("New screen: #{new_state[:navigation][:screen]}")
+        after do |state|
+            push state[:options][:option]
         end
     end
     
@@ -82,7 +82,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/redux_ussd. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/DoctorsForMadagascar/redux_ussd. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 ## License
 
@@ -90,4 +90,4 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the reduxUssd project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/redux_ussd/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the reduxUssd project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/DoctorsForMadagascar/redux_ussd/blob/master/CODE_OF_CONDUCT.md).
