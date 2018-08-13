@@ -61,7 +61,7 @@ module ReduxUssd
 
     def screens
       @screens ||= {}
-    endlib/redux_ussd/menu.rb
+    end
 
     def middlewares
       [
