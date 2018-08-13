@@ -16,11 +16,12 @@ module ReduxUssd
 
       def self.handle_raw_input(store, action)
         options = store.state[:options]
-        current_screen = store.state[:navigation][:current_screen]
+        current_screen = store.state[:navigation]
 
         return unless options_exist?(options, current_screen)
         option_index = parse_input(action[:raw_input])
         option = screen_at(options, current_screen, option_index)
+        return unless option
         store.dispatch(type: :select_option, screen: current_screen,
                        option: option)
       end

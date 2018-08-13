@@ -34,9 +34,7 @@ module ReduxUssd
 
   def initial_state
     {
-      navigation: {
-        current_screen: :index
-      },
+      navigation: :index,
       options: {},
       prompt: {
         targets: {},

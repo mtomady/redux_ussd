@@ -7,9 +7,12 @@ RSpec.describe ReduxUssd::Middlewares::OptionSelect do
 
   let(:state) do
     {
-      navigation: {
-        current_screen: :welcome
-      }
+        options: {
+
+        },
+        navigation: {
+            current_screen: :welcome
+        }
     }
   end
 
@@ -19,19 +22,75 @@ RSpec.describe ReduxUssd::Middlewares::OptionSelect do
       allow(store).to receive(:dispatch)
     end
 
+    let(:action) do
+      { type: :handle_raw_input,
+        raw_input: '1' }
+    end
+
     let(:forward_error) { StandardError.new('This should not be raised') }
     let(:forward) { proc { raise forward_error } }
 
-    context 'receives :handle_raw_input' do
-      let(:action) do
-        { type: :handle_raw_input,
-          raw_input: '1' }
+    context 'action type is :handle_raw_input' do
+      context 'options are existing' do
+        let(:state) do
+          {
+              options: { current_screen: [:yes, :no] },
+              navigation: { current_screen: :welcome }
+          }
+        end
+
+        let(:action) do
+          { type: :handle_raw_input,
+            raw_input: '1' }
+        end
+
+        it 'should not dispatch a :select_option action' do
+          subject.call(store).call(forward).call(action)
+          expect(store).to have_received(:dispatch).with(type: :select_option,
+                                                        screen: :welcome,
+                                                        option: :yes)
+        end
+
+        it 'should not update the store state' do
+          expect { subject.call(store).call(forward).call(action) }.not_to change(store, :state)
+        end
       end
 
-      it 'should dispatch an action' do
-        subject.call(store).call(forward).call(action)
-        expect(store).to have_received(:dispatch).with(type: :push,
-                                                       screen: :first_screen)
+      context 'no option exists' do
+        let(:state) do
+          {
+              options: {},
+              navigation: { current_screen: :welcome }
+          }
+        end
+
+        it 'should not dispatch a :select_option action' do
+          subject.call(store).call(forward).call(action)
+          expect(store).not_to have_receive(:dispatch).with(type: :select_option, screen: current_screen,
+                                                            option: option)
+        end
+
+        it 'should not update the store state' do
+          subject.call(store).call(forward).call(action)
+          expect { subject.call(store).call(forward).call(action) }.not_to change(store, :state)
+        end
+      end
+
+      context 'raw input cannot be interpreted as an integer' do
+        let(:action) do
+          { type: :handle_raw_input,
+            raw_input: 'other' }
+        end
+
+        it 'should not dispatch a :select_option action' do
+          subject.call(store).call(forward).call(action)
+          expect(store).not_to have_receive(:dispatch).with(type: :select_option, screen: current_screen,
+                                                            option: option)
+        end
+
+        it 'should not update the store state' do
+          expect { subject.call(store).call(forward).call(action) }.not_to change(store, :state)
+        end
       end
     end
 

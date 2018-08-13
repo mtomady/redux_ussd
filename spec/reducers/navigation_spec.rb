@@ -11,7 +11,7 @@ RSpec.describe ReduxUssd::Reducers::Navigation do
 
       it 'should update the :current_screen' do
         expect(subject.call(action, state))
-          .to eq(current_screen: :new_screen_name)
+          .to eq(:new_screen_name)
       end
 
       it 'should not equal the old state' do

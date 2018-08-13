@@ -4,7 +4,7 @@ RSpec.describe ReduxUssd::Reducers::Prompt do
   subject { described_class }
 
   describe '.call' do
-    let(:state) { { targets: { some_target: :some_value_key }, values: { some_value_key: nil} } }
+    let(:state) { { targets: { some_target: :some_value_key }, values: { some_value_key: nil } } }
 
     context 'action type is :set_prompt_value' do
       let(:action) { { type: :set_prompt_value, target: :some_target, value: 'raw input' } }

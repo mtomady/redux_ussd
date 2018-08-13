@@ -66,28 +66,45 @@ RSpec.describe ReduxUssd::Menu do
     end
   end
 
-  describe '#end?' do
+  describe '#check_end?' do
+    context 'no prompts or options in current screen' do
+      before(:each) do
+        allow(store).to receive_message_chain(:screens, :[], :prompt_or_options?).and_return(false)
+      end
+
+      it 'should dispatch a :force_end action' do
+        expect(subject.check_end?).to be_truthy
+        expect(store).to have_received(:dispatch).with(type: :force_end)
+      end
+    end
+
     context 'store state for :end is true' do
       before(:each) do
+        allow(store).to receive_message_chain(:state, :[])
+                            .with(:navigation)
+                            .and_return(:index)
         allow(store).to receive_message_chain(:state, :[])
                             .with(:end)
                             .and_return(true)
       end
 
       it 'should return true' do
-        expect(subject.end?).to be_truthy
+        expect(subject.check_end?).to be_truthy
       end
     end
 
     context 'store state for :end is false' do
       before(:each) do
         allow(store).to receive_message_chain(:state, :[])
+                            .with(:navigation)
+                            .and_return(:index)
+        allow(store).to receive_message_chain(:state, :[])
                             .with(:end)
                             .and_return(false)
       end
 
       it 'should return false' do
-        expect(subject.end?).to be_falsey
+        expect(subject.check_end?).to be_falsey
       end
     end
   end

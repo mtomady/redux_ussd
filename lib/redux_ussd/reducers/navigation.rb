@@ -7,7 +7,7 @@ module ReduxUssd
       def self.call(action, state)
         case action[:type]
         when :push
-          state.merge(current_screen: action[:screen])
+          action[:screen]
         else
           state
         end

@@ -47,7 +47,6 @@ while true
   print '>> '
   input = gets.strip
   hello_world.menu.handle_raw_input(input)
-
   puts hello_world.menu.render
-  break if hello_world.menu.end?
+  break if hello_world.menu.check_end?
 end

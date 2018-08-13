@@ -22,18 +22,19 @@ module ReduxUssd
     end
 
     def render
-      current_screen = @store.state[:navigation][:current_screen]
+      current_screen = @store.state[:navigation]
       screens[current_screen].render
     end
 
     def handle_raw_input(raw_input)
       @store.dispatch(type: :handle_raw_input, raw_input: raw_input)
-      current_screen = @store.state[:navigation][:current_screen]
-      screens[current_screen].after&.call(@store.state)
-      @store.dispatch(type: :force_end) unless screens[current_screen].prompt_or_options?
+      current_screen = @store.state[:navigation]
+      screens[current_screen].&after&.call(@store.state)
     end
 
-    def end?
+    def check_end?
+      current_screen = @store.state[:navigation]
+      @store.dispatch(type: :force_end) unless screens[current_screen].prompt_or_options?
       @store.state[:end]
     end
 

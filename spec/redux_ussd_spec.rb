@@ -71,7 +71,7 @@ RSpec.describe ReduxUssd do
     context 'initial state is not given' do
       it 'should setup the menu with a default state' do
         expect { subject.setup_menu }.to change(subject, :menu)
-        expect(subject.menu.state).to eq(navigation: { current_screen: :index },
+        expect(subject.menu.state).to eq(navigation: :index ,
                                          options: {},
                                          prompt: { targets: {}, values: {} },
                                          end: false)
