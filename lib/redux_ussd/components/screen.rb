@@ -17,8 +17,7 @@ module ReduxUssd
       end
 
       def render
-        @components = []
-        DslProxy.new(self).instance_eval(&@block)
+        evaluate_components
         @components.map(&:render).join("\n")
       end
 
@@ -46,6 +45,11 @@ module ReduxUssd
                         target: name)
       end
 
+      def after
+        evaluate_components
+        @after
+      end
+
       def register_after(&block)
         @after = block
       end
@@ -63,6 +67,11 @@ module ReduxUssd
       end
 
       private
+
+      def evaluate_components
+        @components = []
+        DslProxy.new(self).instance_eval(&@block)
+      end
 
       def option_components
         @components.select { |c| c.is_a?(Option) }
