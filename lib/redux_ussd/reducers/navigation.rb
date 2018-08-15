@@ -7,7 +7,7 @@ module ReduxUssd
       def self.call(action, state)
         case action[:type]
         when :push
-          action[:screen]
+          action[:screen].to_sym
         else
           state
         end
