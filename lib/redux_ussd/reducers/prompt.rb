@@ -10,7 +10,7 @@ module ReduxUssd
           values = { values: { action[:target] => action[:value] } }
           state.deep_merge(values)
         when :register_prompt
-          targets = { targets: { action[:screen] => action[:target].to_sym } }
+          targets = { targets: { action[:screen] => action[:target] } }
           state.deep_merge(targets)
         else
           state

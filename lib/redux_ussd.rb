@@ -25,6 +25,10 @@ module ReduxUssd
 
   private
 
+  def symbolize(state)
+
+  end
+
   # Holds a class-level definition of the menu DSL
   module ClassMethods
     def menu(&block)
