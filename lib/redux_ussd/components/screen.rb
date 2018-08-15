@@ -46,8 +46,6 @@ module ReduxUssd
                         target: name)
       end
 
-      attr_reader :after
-
       def register_after(&block)
         @after = block
       end
