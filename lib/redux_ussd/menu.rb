@@ -19,6 +19,7 @@ module ReduxUssd
                          middlewares,
                          reducers)
       @session = options[:session] || {}
+      @store.dispatch(type: :symbolize_navigation)
     end
 
     def render

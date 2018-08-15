@@ -6,10 +6,12 @@ module ReduxUssd
     class Navigation
       def self.call(action, state)
         case action[:type]
+        when :symbolize_navigation
+          state.to_sym
         when :push
           action[:screen]
         else
-          state.to_sym
+          state
         end
       end
     end
