@@ -10,6 +10,18 @@ RSpec.describe ReduxUssd do
     expect(ReduxUssd::VERSION).not_to be nil
   end
 
+  describe '.initial_state' do
+    it 'should return a predefined initial state' do
+      expect(ReduxUssd.initial_state).to eq(navigation: :index,
+                                            options: {},
+                                            prompt: {
+                                              targets: {},
+                                              values: {}
+                                            },
+                                            end: false)
+    end
+  end
+
   describe '.menu' do
     it 'should setup a menu block' do
       block = proc {}
@@ -24,10 +36,10 @@ RSpec.describe ReduxUssd do
     # end
     #
     # it 'should add screens' do
-    #   allow(subject).to receive(:add_screen)
+    #   allow(subject).to receive(:register_screen)
     #   subject.menu(&menu_block)
-    #   expect(subject).to have_received(:add_screen).with(:screen_1)
-    #   expect(subject).to have_received(:add_screen).with(:screen_2)
+    #   expect(subject).to have_received(:register_screen).with(:screen_1)
+    #   expect(subject).to have_received(:register_screen).with(:screen_2)
     # end
   end
 
@@ -71,7 +83,7 @@ RSpec.describe ReduxUssd do
     context 'initial state is not given' do
       it 'should setup the menu with a default state' do
         expect { subject.setup_menu }.to change(subject, :menu)
-        expect(subject.menu.state).to eq(navigation: :index ,
+        expect(subject.menu.state).to eq(navigation: :index,
                                          options: {},
                                          prompt: { targets: {}, values: {} },
                                          end: false)

@@ -9,7 +9,7 @@ module ReduxUssd
           lambda do |action|
             # Cancel everything if the session was already ended
             return if store.state[:end]
-            current_screen = store.state[:navigation]
+            current_screen = store.state[:navigation][:current]
             if action[:type] == :handle_raw_input && !store.state[:prompt][:targets][current_screen] && (store.state[:options][current_screen] || []).empty?
               store.dispatch(type: :force_end)
             else

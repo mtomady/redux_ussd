@@ -23,28 +23,34 @@ module ReduxUssd
     end
 
     def render
-      current_screen = @store.state[:navigation]
+      current_screen = @store.state[:navigation][:current]
       screens[current_screen].render
     end
 
     def handle_raw_input(raw_input)
       @store.dispatch(type: :handle_raw_input, raw_input: raw_input)
-      current_screen = @store.state[:navigation]
-      screens[current_screen]&.after&.call(@store.state)
+      current_screen = @store.state[:navigation][:current]
+      actions[screens[current_screen].action].call if screens[current_screen].action?
     end
 
     def check_end?
-      current_screen = @store.state[:navigation]
-      @store.dispatch(type: :force_end) unless screens[current_screen].prompt_or_options?
+      current_screen = @store.state[:navigation][:current]
+      @store.dispatch(type: :force_end) unless screens[current_screen].action?
       @store.state[:end]
     end
 
-    def add_screen(name, &block)
+    def register_screen(name, options = {}, &block)
       screens[name] = Components::Screen.new(
         name: name,
+        action: options[:action],
         store: @store,
         block: block
       )
+      @store.dispatch(type: :register_screen, screen: name)
+    end
+
+    def register_action(name, &block)
+      actions[name] = block
     end
 
     def state
@@ -52,8 +58,6 @@ module ReduxUssd
     end
 
     attr_reader :session # TODO
-
-    private
 
     def push(screen)
       # TODO: Test
@@ -63,6 +67,12 @@ module ReduxUssd
     def screens
       @screens ||= {}
     end
+
+    def actions
+      @actions ||= {}
+    end
+
+    private
 
     def middlewares
       [
@@ -89,11 +99,11 @@ module ReduxUssd
         @menu = menu
       end
 
-      def_delegator :@menu, :add_screen, :screen
+      def_delegator :@menu, :register_screen, :screen
+      def_delegator :@menu, :register_action, :action
       def_delegator :@menu, :state, :state
       def_delegator :@menu, :session, :session
+      def_delegator :@menu, :push, :push
     end
   end
 end
-
-# TODO: Intial scrren

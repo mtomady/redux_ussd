@@ -7,12 +7,12 @@ RSpec.describe ReduxUssd::Middlewares::OptionSelect do
 
   let(:state) do
     {
-        options: {
+      options: {
 
-        },
-        navigation: {
-            current_screen: :welcome
-        }
+      },
+      navigation: {
+        current_screen: :welcome
+      }
     }
   end
 
@@ -34,8 +34,8 @@ RSpec.describe ReduxUssd::Middlewares::OptionSelect do
       context 'options are existing' do
         let(:state) do
           {
-              options: { current_screen: [:yes, :no] },
-              navigation: { current_screen: :welcome }
+            options: { current_screen: %i[yes no] },
+            navigation: { current_screen: :welcome }
           }
         end
 
@@ -47,8 +47,8 @@ RSpec.describe ReduxUssd::Middlewares::OptionSelect do
         it 'should not dispatch a :select_option action' do
           subject.call(store).call(forward).call(action)
           expect(store).to have_received(:dispatch).with(type: :select_option,
-                                                        screen: :welcome,
-                                                        option: :yes)
+                                                         screen: :welcome,
+                                                         option: :yes)
         end
 
         it 'should not update the store state' do
@@ -59,8 +59,8 @@ RSpec.describe ReduxUssd::Middlewares::OptionSelect do
       context 'no option exists' do
         let(:state) do
           {
-              options: {},
-              navigation: { current_screen: :welcome }
+            options: {},
+            navigation: { current_screen: :welcome }
           }
         end
 

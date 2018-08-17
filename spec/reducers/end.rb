@@ -11,7 +11,7 @@ RSpec.describe ReduxUssd::Reducers::End do
 
       it 'should return true' do
         expect(subject.call(action, state))
-            .to eq(true)
+          .to eq(true)
       end
 
       it 'should not be equal to the old state' do
@@ -24,7 +24,7 @@ RSpec.describe ReduxUssd::Reducers::End do
 
       it 'should return false' do
         expect(subject.call(action, state))
-            .to eq(false)
+          .to eq(false)
       end
 
       it 'should be be equal to the old state' do

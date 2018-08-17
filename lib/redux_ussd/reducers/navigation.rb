@@ -7,9 +7,13 @@ module ReduxUssd
       def self.call(action, state)
         case action[:type]
         when :symbolize_navigation
-          state.to_sym
+          {screens: (state[:screens] || []).map(&:to_sym),
+           current: state[:current]&.to_sym }
+        when :register_screen
+          state.deep_merge(screens: [action[:screen]])
         when :push
-          action[:screen]
+          return state unless state[:screens].include?(action[:screen])
+          state.merge(current: action[:screen])
         else
           state
         end

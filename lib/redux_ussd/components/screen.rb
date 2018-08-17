@@ -12,6 +12,7 @@ module ReduxUssd
       def initialize(options = {})
         @name = options[:name]
         @block = options[:block]
+        @action = options[:action]
         @components = []
         @store = options[:store]
       end
@@ -21,7 +22,11 @@ module ReduxUssd
         @components.map(&:render).join("\n")
       end
 
-      attr_reader :after
+      attr_reader :action
+
+      def action?
+        !@action.nil?
+      end
 
       def add_option(name, options = {})
         @components.push(Option.new(
@@ -43,15 +48,6 @@ module ReduxUssd
         @store.dispatch(type: :register_prompt,
                         screen: @name, # TODO: RENMAE
                         target: name)
-      end
-
-      def after
-        evaluate_components
-        @after
-      end
-
-      def register_after(&block)
-        @after = block
       end
 
       def state
@@ -90,10 +86,8 @@ module ReduxUssd
         end
 
         def_delegator :@screen, :add_option, :option
-        def_delegator :@screen, :dispatch_push, :push
         def_delegator :@screen, :add_text, :text
         def_delegator :@screen, :add_prompt, :prompt
-        def_delegator :@screen, :register_after, :after
         def_delegator :@screen, :state
       end
     end

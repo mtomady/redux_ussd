@@ -18,7 +18,7 @@ module ReduxUssd
       end
 
       def self.handle_raw_input(store, action)
-        current_screen = store.state[:navigation]
+        current_screen = store.state[:navigation][:current]
         target = store.state[:prompt][:targets][current_screen]
         return unless target
         store.dispatch(type: :set_prompt_value, target: target,

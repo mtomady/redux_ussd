@@ -8,7 +8,7 @@ require 'redux_ussd/store'
 module ReduxUssd
   def setup_menu(options = {})
     @menu ||= begin
-      options[:state] = (options[:state] || ReduxUssd.initial_state)#.deep_symbolize_keys
+      options[:state] = (options[:state] || ReduxUssd.initial_state) # .deep_symbolize_keys
       ReduxUssd::Menu.new(options).tap do |menu|
         Menu::DslProxy.new(menu).instance_eval(&self.class.menu)
       end
@@ -25,9 +25,7 @@ module ReduxUssd
 
   private
 
-  def symbolize(state)
-
-  end
+  def symbolize(state); end
 
   # Holds a class-level definition of the menu DSL
   module ClassMethods
@@ -38,7 +36,10 @@ module ReduxUssd
 
   def self.initial_state
     {
-      navigation: :index,
+      navigation: {
+          screens: [],
+          current: :index
+      },
       options: {},
       prompt: {
         targets: {},

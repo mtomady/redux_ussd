@@ -12,7 +12,7 @@ RSpec.describe ReduxUssd::Reducers::Prompt do
       it 'should update the target values' do
         expect(subject.call(action, state)).to eq(targets: { some_target: :some_value_key },
                                                   values: {
-                                                      some_value_key: 'raw input'
+                                                    some_value_key: 'raw input'
                                                   })
       end
 
@@ -38,9 +38,7 @@ RSpec.describe ReduxUssd::Reducers::Prompt do
         # TODO: test deep merge
       end
 
-
       context 'with existing values' do
-
       end
     end
 

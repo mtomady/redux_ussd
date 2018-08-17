@@ -7,32 +7,32 @@ class HelloWorld
   include ReduxUssd
 
   menu do
-    screen :index do
+    screen :index, action: :show_welcome do
       text 'Accept terms and conditions?'
       option :yes, text: 'Yes'
       option :no, text: 'No'
-
-      after do |state|
-        push :welcome
-      end
     end
 
-    screen :welcome do
+    action :show_welcome do
+      push :welcome if state[:options][:option] == :yes
+    end
+
+    screen :welcome, action: :push_welcome do
       text 'Welcome to test service'
       option :deposit, text: 'Deposit money'
       option :balance, text: 'Balance'
-
-      after do |state|
-        push state[:options][:option]
-      end
     end
 
-    screen :deposit do
-      prompt :amount, text: 'How much?'
+    action :push_welcome do
+      push state[:options][:option]
+    end
 
-      after do |state|
-        push :deposit_success
-      end
+    screen :deposit, action: :deposit do
+      prompt :amount, text: 'How much?'
+    end
+
+    action :deposit do
+      push :deposit_success
     end
 
     screen :deposit_success do
@@ -43,10 +43,11 @@ end
 
 hello_world = HelloWorld.new
 hello_world.setup_menu
+hello_world.menu.handle_raw_input('')
 while true
+  puts hello_world.menu.render
+  break if hello_world.menu.check_end?
   print '>> '
   input = gets.strip
   hello_world.menu.handle_raw_input(input)
-  puts hello_world.menu.render
-  break if hello_world.menu.check_end?
 end

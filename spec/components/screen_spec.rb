@@ -6,11 +6,40 @@ RSpec.describe ReduxUssd::Components::Screen do
   let(:name) { :welcome_screen }
   let(:store) { double('ReduxUssd::Store') }
   let(:component_block) { proc {} }
-
-  subject do
+  let(:action) { :example_action_name }
+  let(:screen) do
     described_class.new(name: name,
                         store: store,
+                        action: action,
                         block: component_block)
+  end
+
+  subject { screen }
+
+  describe '#action' do
+    it 'should return the initialized action' do
+      expect(subject.action).to eq(action)
+    end
+  end
+
+  describe '#action?' do
+    context 'was initialized with action' do
+      it 'should return true' do
+        expect(subject.action?).to be_truthy
+      end
+    end
+
+    context 'was not initialized with action' do
+      let(:screen) do
+        described_class.new(name: name,
+                            store: store,
+                            block: component_block)
+      end
+
+      it 'should return false' do
+        expect(subject.action?).to be_falsey
+      end
+    end
   end
 
   describe '#render' do
@@ -48,9 +77,6 @@ RSpec.describe ReduxUssd::Components::Screen do
                                                        screen: name,
                                                        target: :hello_key)
       end
-    end
-
-    context 'with process block' do
     end
 
     context 'with option components' do

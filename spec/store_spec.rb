@@ -18,12 +18,11 @@ RSpec.describe ReduxUssd::Store do
 
   describe '#dispatch' do
     let(:reducers) do
-      { type_1: proc {}, type_2: proc {}}
+      { type_1: proc {}, type_2: proc {} }
     end
 
     describe 'middlewares' do
       context 'first middleware forwards' do
-
         let(:middlewares) do
           [MiddlewareMock.new(true),
            MiddlewareMock.new]
@@ -50,9 +49,7 @@ RSpec.describe ReduxUssd::Store do
       end
     end
 
-
     it 'should call the reducers' do
-
     end
 
     context 'new state is nil' do

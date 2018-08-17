@@ -3,14 +3,12 @@
 
 RSpec.describe ReduxUssd::Menu do
   let(:store) { double('ReduxUssd::Store') }
-  let(:initial_state) do
-    {
-      navigation: { current_screen: nil, routes: {} }
-    }
+  let(:initial_state) { ReduxUssd.initial_state }
+  let(:session) { { msisdn: '+491111111111' } }
+  let(:menu) do
+    ReduxUssd::Menu.new(session: session,
+                        state: initial_state)
   end
-  let(:session) { { msisdn: '+491111111111' }}
-  let(:menu) { ReduxUssd::Menu.new(session: session,
-                                   state: initial_state) }
   subject { menu }
 
   before(:each) do
@@ -18,14 +16,35 @@ RSpec.describe ReduxUssd::Menu do
     allow(store).to receive(:dispatch)
   end
 
-  describe '#add_screen' do
+  describe '#register_screen' do
     let(:screen_name) { :new_screen }
-    let(:block) { ->(_) {} }
-  
+    let(:screen_block) { proc {} }
+
     it 'should add a new screen' do
-      screen = subject.add_screen(screen_name, &block)
-      expect(screen).to be_instance_of(ReduxUssd::Components::Screen)
+      expect do
+        subject.register_screen(screen_name, &block)
+      end.to change { subject.screens.count }.by(1)
     end
+
+    it 'should register a screen with given properties' do
+      subject.register_screen(screen_name, &block)
+      expect(subject.screens[screen_name]).to be_instance_of(ReduxUssd::Components::Screen)
+      expect(subject.screens[screen_name]).to have_attributes
+    end
+
+    # TODO: Assert properties
+  end
+
+  describe '#register_action' do
+    let(:action_name) { :example_action_name }
+    let(:action_block) { proc {} }
+
+    it 'should add a new action to #actions' do
+      expect do
+        subject.register_action :action_name, &action_block
+      end.to change { subject.actions.count }.by(1)
+    end
+    # TODO: Assert properties
   end
 
   describe '#render' do
@@ -81,11 +100,11 @@ RSpec.describe ReduxUssd::Menu do
     context 'store state for :end is true' do
       before(:each) do
         allow(store).to receive_message_chain(:state, :[])
-                            .with(:navigation)
-                            .and_return(:index)
+          .with(:navigation)
+          .and_return(:index)
         allow(store).to receive_message_chain(:state, :[])
-                            .with(:end)
-                            .and_return(true)
+          .with(:end)
+          .and_return(true)
       end
 
       it 'should return true' do
@@ -96,11 +115,11 @@ RSpec.describe ReduxUssd::Menu do
     context 'store state for :end is false' do
       before(:each) do
         allow(store).to receive_message_chain(:state, :[])
-                            .with(:navigation)
-                            .and_return(:index)
+          .with(:navigation)
+          .and_return(:index)
         allow(store).to receive_message_chain(:state, :[])
-                            .with(:end)
-                            .and_return(false)
+          .with(:end)
+          .and_return(false)
       end
 
       it 'should return false' do
@@ -113,5 +132,26 @@ RSpec.describe ReduxUssd::Menu do
     it 'should equal the passed session' do
       expect(subject.session).to eq(session)
     end
+  end
+
+  describe '#state' do
+    let(:store_state) do
+      { this_is_state: true }
+    end
+
+    before(:each) do
+      allow(store).to receive(:state).and_return(store_state)
+    end
+
+    it 'should return the store state' do
+      expect(subject.state).to eq(store_state)
+      expect(store.state).to have_received(:state).once
+    end
+  end
+
+  describe '#actions' do
+  end
+
+  describe '#screens' do
   end
 end

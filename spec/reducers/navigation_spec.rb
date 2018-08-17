@@ -4,7 +4,7 @@ RSpec.describe ReduxUssd::Reducers::Navigation do
   subject { described_class }
 
   describe '.call' do
-    let(:state) { { current_screen: :old_screen_name} }
+    let(:state) { { current_screen: :old_screen_name } }
 
     context 'action type is :push' do
       let(:action) { { type: :push, screen: :new_screen_name } }
@@ -16,7 +16,7 @@ RSpec.describe ReduxUssd::Reducers::Navigation do
 
       it 'should not equal the old state' do
         expect(subject.call(action, state))
-            .not_to eq(state)
+          .not_to eq(state)
       end
     end
 
