@@ -13,6 +13,7 @@ Coveralls.wear!
 require 'bundler/setup'
 require 'redux_ussd'
 require 'support/middleware_mock'
+require 'support/matchers/accept'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

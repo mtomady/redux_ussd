@@ -9,15 +9,9 @@ module ReduxUssd
           lambda do |action|
             handle_raw_input(store, action) if action[:type] ==
                                                :handle_raw_input
-            forward.call(action) # TODO: Test
+            forward.call(action)
           end
         end
-      end
-
-      def self.handle_raw_inpu2(store, action)
-        options = store.state[:options]
-        current_screen = store.state[:navigation][:current]
-        return unless options_exist?(options, current_screen)
       end
 
       def self.handle_raw_input(store, action)

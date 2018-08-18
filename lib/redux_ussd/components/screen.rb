@@ -23,6 +23,7 @@ module ReduxUssd
       end
 
       attr_reader :action
+      attr_reader :components
 
       def action?
         !@action.nil?

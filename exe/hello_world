@@ -15,12 +15,21 @@ class HelloWorld
 
     action :show_welcome do
       push :welcome if state[:options][:option] == :yes
+      push :denied_terms if state[:options][:option] == :no
+    end
+
+    screen :denied_terms do
+      text 'You denied, sorry :('
     end
 
     screen :welcome, action: :push_welcome do
       text 'Welcome to test service'
       option :deposit, text: 'Deposit money'
       option :balance, text: 'Balance'
+    end
+
+    screen :balance do
+      text 'Your balance is 20AR.'
     end
 
     action :push_welcome do

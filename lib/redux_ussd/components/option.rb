@@ -10,6 +10,9 @@ module ReduxUssd
         @text = options[:text]
       end
 
+      attr_reader :text
+      attr_reader :option_index
+
       def render
         "#{@option_index}. #{@text}"
       end
