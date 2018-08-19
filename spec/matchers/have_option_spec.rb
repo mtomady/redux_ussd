@@ -61,6 +61,6 @@ RSpec.describe ReduxUssd::Shoulda::Matchers::HaveOptionMatcher do
   private
 
   def matcher
-    self.class.have_option(:name, 'This is text.')
+    self.class.have_option_component(:name, 'This is text.')
   end
 end

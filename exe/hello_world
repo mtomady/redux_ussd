@@ -52,6 +52,8 @@ end
 
 hello_world = HelloWorld.new
 hello_world.setup_menu
+# Initially handle a raw input start the menu.
+# It can be used to initialize a menu with use codes e.g, *100#1
 hello_world.menu.handle_raw_input('')
 while true
   puts hello_world.menu.render

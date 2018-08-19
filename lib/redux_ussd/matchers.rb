@@ -3,10 +3,3 @@
 require 'redux_ussd/matchers/have_option_matcher'
 require 'redux_ussd/matchers/have_text_matcher'
 require 'redux_ussd/matchers/uses_action_matcher'
-
-module Paperclip
-  module Shoulda
-    module Matchers
-    end
-  end
-end

@@ -43,6 +43,6 @@ RSpec.describe ReduxUssd::Shoulda::Matchers::HaveTextMatcher do
   private
 
   def matcher
-    self.class.have_text('This is text.')
+    self.class.have_text_component('This is text.')
   end
 end

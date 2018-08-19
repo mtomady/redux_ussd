@@ -3,7 +3,7 @@
 module ReduxUssd
   module Shoulda
     module Matchers
-      def have_text(text)
+      def have_text_component(text)
         HaveTextMatcher.new(text)
       end
 

@@ -3,7 +3,7 @@
 module ReduxUssd
   module Shoulda
     module Matchers
-      def have_option(name, text)
+      def have_option_component(name, text)
         HaveOptionMatcher.new(name, text)
       end
 
