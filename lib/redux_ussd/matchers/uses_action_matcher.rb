@@ -15,6 +15,10 @@ module ReduxUssd
         def matches?(screen)
           screen.action == @action_name
         end
+
+        def failure_message
+          "Screen should use action #{@action_name}"
+        end
       end
     end
   end

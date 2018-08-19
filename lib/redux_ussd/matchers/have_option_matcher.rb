@@ -19,6 +19,10 @@ module ReduxUssd
             c.name == @name && c.text == @text && (@index.nil? ? true : c.option_index == @index)
           end
         end
+
+        def failure_message
+          "Screen should have a option :#{name} with text #{@text}"
+        end
       end
     end
   end

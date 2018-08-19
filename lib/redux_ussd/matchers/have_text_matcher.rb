@@ -17,6 +17,10 @@ module ReduxUssd
             c.text == @text
           end
         end
+
+        def failure_message
+          "Screen should have a text component with text #{@text}"
+        end
       end
     end
   end
