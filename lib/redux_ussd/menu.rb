@@ -41,6 +41,10 @@ module ReduxUssd
       @store.state[:end]
     end
 
+    def force_end
+      @store.dispatch(type: :force_end)
+    end
+
     def register_screen(name, options = {}, &block)
       screens[name] = Components::Screen.new(
         name: name,
@@ -108,6 +112,7 @@ module ReduxUssd
       def_delegator :@menu, :state, :state
       def_delegator :@menu, :static, :static
       def_delegator :@menu, :push, :push
+      def_delegator :@menu, :force_end, :force_end
     end
   end
 end

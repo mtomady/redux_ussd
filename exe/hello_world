@@ -27,6 +27,7 @@ class HelloWorld
       text "Welcome to test service, #{static[:name]}!"
       option :deposit, text: 'Deposit money'
       option :balance, text: 'Balance'
+      option :end, text: 'End'
     end
 
     screen :balance do
@@ -34,6 +35,7 @@ class HelloWorld
     end
 
     action :push_welcome do
+      force_end if state[:option] == :end
       push state[:option]
     end
 
