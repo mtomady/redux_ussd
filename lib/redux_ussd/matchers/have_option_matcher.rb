@@ -21,7 +21,11 @@ module ReduxUssd
         end
 
         def failure_message
-          "Screen should have a option :#{name} with text #{@text}"
+          "Should have a option :#{name} with text #{@text}"
+        end
+
+        def description
+          "have a option :#{name} with text #{@text}"
         end
       end
     end

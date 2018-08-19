@@ -3,11 +3,11 @@
 module ReduxUssd
   module Shoulda
     module Matchers
-      def uses_action(action_name)
-        UsesActionMatcher.new(action_name)
+      def use_action(action_name)
+        UseActionMatcher.new(action_name)
       end
 
-      class UsesActionMatcher
+      class UseActionMatcher
         def initialize(action_name)
           @action_name = action_name
         end
@@ -17,7 +17,11 @@ module ReduxUssd
         end
 
         def failure_message
-          "Screen should use action #{@action_name}"
+          "Should use action #{@action_name}"
+        end
+
+        def description
+          "use action #{@action_name}"
         end
       end
     end

@@ -3,7 +3,7 @@
 require 'spec_helper'
 require 'redux_ussd/matchers'
 
-RSpec.describe ReduxUssd::Shoulda::Matchers::UsesActionMatcher do
+RSpec.describe ReduxUssd::Shoulda::Matchers::UseActionMatcher do
   extend ReduxUssd::Shoulda::Matchers
 
   let(:store) { spy('ReduxUssd::Store') }
@@ -43,6 +43,6 @@ RSpec.describe ReduxUssd::Shoulda::Matchers::UsesActionMatcher do
   private
 
   def matcher
-    self.class.uses_action(:example_action_name)
+    self.class.use_action(:example_action_name)
   end
 end
