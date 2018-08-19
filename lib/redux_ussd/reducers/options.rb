@@ -9,7 +9,7 @@ module ReduxUssd
         when :symbolize_values
           state.map { |key, val| [key, val.map(&:to_sym) ]}.to_h
         when :register_option
-          state.deep_merge(action[:screen] => [action[:option]])
+          state.deeper_merge(action[:screen] => [action[:option]])
         else
           state
         end

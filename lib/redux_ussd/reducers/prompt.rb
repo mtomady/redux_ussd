@@ -7,9 +7,9 @@ module ReduxUssd
       def self.call(action, state)
         case action[:type]
         when :set_prompt_value
-          state.deep_merge(values: { action[:target] => action[:value] })
+          state.deeper_merge(values: { action[:target] => action[:value] })
         when :register_prompt
-          state.deep_merge(targets: { action[:screen] => action[:target] })
+          state.deeper_merge(targets: { action[:screen] => action[:target] })
         else
           state
         end

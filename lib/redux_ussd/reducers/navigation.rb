@@ -10,7 +10,7 @@ module ReduxUssd
           { screens: (state[:screens] || []).map(&:to_sym),
             current: state[:current]&.to_sym }
         when :register_screen
-          state.deep_merge(screens: [action[:screen]])
+          state.deeper_merge(screens: [action[:screen]])
         when :push
           return state unless state[:screens].include?(action[:screen])
           state.merge(current: action[:screen])

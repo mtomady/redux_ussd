@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'redux_ussd/reducers/navigation'
-require 'deep_merge'
+require 'deep_merge/rails_compat'
 
 module ReduxUssd
   # Dispatches action and mutates state using middlewares and reducers
