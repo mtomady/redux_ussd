@@ -6,7 +6,7 @@ module ReduxUssd
     class Navigation
       def self.call(action, state)
         case action[:type]
-        when :symbolize_navigation
+        when :symbolize_values
           { screens: (state[:screens] || []).map(&:to_sym),
             current: state[:current]&.to_sym }
         when :register_screen

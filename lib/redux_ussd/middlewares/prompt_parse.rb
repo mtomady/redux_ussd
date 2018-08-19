@@ -8,11 +8,8 @@ module ReduxUssd
       def self.call(store)
         lambda do |forward|
           lambda do |action|
-            if action[:type] == :handle_raw_input
-              handle_raw_input(store, action)
-            else
-              forward.call(action)
-            end
+            handle_raw_input(store, action) if action[:type] == :handle_raw_input
+            forward.call(action)
           end
         end
       end

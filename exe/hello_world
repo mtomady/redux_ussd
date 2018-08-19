@@ -14,8 +14,8 @@ class HelloWorld
     end
 
     action :show_welcome do
-      push :welcome if state[:options][:option] == :yes
-      push :denied_terms if state[:options][:option] == :no
+      push :welcome if state[:option] == :yes
+      push :denied_terms if state[:option] == :no
     end
 
     screen :denied_terms do
@@ -33,7 +33,7 @@ class HelloWorld
     end
 
     action :push_welcome do
-      push state[:options][:option]
+      push state[:option]
     end
 
     screen :deposit, action: :deposit do

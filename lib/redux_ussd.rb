@@ -38,7 +38,8 @@ module ReduxUssd
         screens: [],
         current: :index
       },
-      options: {},
+      options: { },
+      option: nil,
       prompt: {
         targets: {},
         values: {}

@@ -5,6 +5,7 @@ require 'redux_ussd/store'
 require 'redux_ussd/reducers/navigation'
 require 'redux_ussd/reducers/prompt'
 require 'redux_ussd/reducers/option'
+require 'redux_ussd/reducers/options'
 require 'redux_ussd/reducers/end'
 require 'redux_ussd/middlewares/option_select'
 require 'redux_ussd/middlewares/prompt_parse'
@@ -19,7 +20,7 @@ module ReduxUssd
                          middlewares,
                          reducers)
       @session = options[:session] || {}
-      @store.dispatch(type: :symbolize_navigation)
+      @store.dispatch(type: :symbolize_values)
     end
 
     def render
@@ -85,7 +86,8 @@ module ReduxUssd
     def reducers
       {
         navigation: Reducers::Navigation,
-        options: Reducers::Option,
+        options: Reducers::Options,
+        option: Reducers::Option,
         prompt: Reducers::Prompt,
         end: Reducers::End
       }
