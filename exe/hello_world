@@ -8,12 +8,13 @@ class HelloWorld
 
   menu do
     screen :index, action: :show_welcome do
-      text 'Accept terms and conditions?'
+      text "Accept terms and conditions?"
       option :yes, text: 'Yes'
       option :no, text: 'No'
     end
 
     action :show_welcome do
+      return unless static.key?(:name)
       push :welcome if state[:option] == :yes
       push :denied_terms if state[:option] == :no
     end
@@ -23,7 +24,7 @@ class HelloWorld
     end
 
     screen :welcome, action: :push_welcome do
-      text 'Welcome to test service'
+      text "Welcome to test service, #{static[:name]}!"
       option :deposit, text: 'Deposit money'
       option :balance, text: 'Balance'
     end
@@ -51,7 +52,7 @@ class HelloWorld
 end
 
 hello_world = HelloWorld.new
-hello_world.setup_menu
+hello_world.setup_menu(static: { name: 'User 1'})
 # Initially handle a raw input start the menu.
 # It can be used to initialize a menu with use codes e.g, *100#1
 hello_world.menu.handle_raw_input('')

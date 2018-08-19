@@ -7,6 +7,7 @@ module ReduxUssd
   # Dispatches action and mutates state using middlewares and reducers
   class Store
     attr_reader :state
+    attr_reader :static
 
     def initialize(initial_state = {},
                    middlewares = [],

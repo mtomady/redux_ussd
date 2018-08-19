@@ -15,6 +15,7 @@ module ReduxUssd
         @action = options[:action]
         @components = []
         @store = options[:store]
+        @static = options[:static]
       end
 
       def render
@@ -23,6 +24,7 @@ module ReduxUssd
       end
 
       attr_reader :action
+      attr_reader :static
       attr_reader :components
 
       def action?
@@ -90,6 +92,7 @@ module ReduxUssd
         def_delegator :@screen, :add_text, :text
         def_delegator :@screen, :add_prompt, :prompt
         def_delegator :@screen, :state
+        def_delegator :@screen, :static
       end
     end
   end

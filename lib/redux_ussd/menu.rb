@@ -19,7 +19,7 @@ module ReduxUssd
       @store = Store.new(options[:state] || {},
                          middlewares,
                          reducers)
-      @session = options[:session] || {}
+      @static = options[:static] || {}
       @store.dispatch(type: :symbolize_values)
     end
 
@@ -31,6 +31,7 @@ module ReduxUssd
     def handle_raw_input(raw_input)
       @store.dispatch(type: :handle_raw_input, raw_input: raw_input)
       current_screen = @store.state[:navigation][:current]
+      # Move call to separate proxy
       actions[screens[current_screen].action].call if screens[current_screen].action?
     end
 
@@ -45,7 +46,8 @@ module ReduxUssd
         name: name,
         action: options[:action],
         store: @store,
-        block: block
+        block: block,
+        static: @static
       )
       @store.dispatch(type: :register_screen, screen: name)
     end
@@ -58,7 +60,7 @@ module ReduxUssd
       @store.state
     end
 
-    attr_reader :session # TODO
+    attr_reader :static
 
     def push(screen)
       # TODO: Test
@@ -104,7 +106,7 @@ module ReduxUssd
       def_delegator :@menu, :register_screen, :screen
       def_delegator :@menu, :register_action, :action
       def_delegator :@menu, :state, :state
-      def_delegator :@menu, :session, :session
+      def_delegator :@menu, :static, :static
       def_delegator :@menu, :push, :push
     end
   end
