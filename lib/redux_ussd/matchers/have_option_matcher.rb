@@ -25,7 +25,7 @@ module ReduxUssd
         end
 
         def description
-          "have a option :#{name} with text #{@text}"
+          "have a option :#{@name} with text #{@text}"
         end
       end
     end
