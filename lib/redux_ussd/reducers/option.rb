@@ -6,6 +6,8 @@ module ReduxUssd
     class Option
       def self.call(action, state)
         case action[:type]
+        when :symbolize_values
+          state.to_sym
         when :select_option
           action[:option]
         else
