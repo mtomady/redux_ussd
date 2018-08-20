@@ -33,7 +33,7 @@ RSpec.describe ReduxUssd::Shoulda::Matchers::HaveOptionMatcher do
     it { is_expected.to accept(screen) }
   end
 
-  context 'having options with other names' do
+  context 'having option with other names' do
     let(:block) do
       proc do
         option :other_name, text: 'This is text.'
@@ -43,7 +43,7 @@ RSpec.describe ReduxUssd::Shoulda::Matchers::HaveOptionMatcher do
     it { is_expected.not_to accept(screen) }
   end
 
-  context 'having options with other names' do
+  context 'having option with other text' do
     let(:block) do
       proc do
         option :name, text: 'This is a another text.'

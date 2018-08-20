@@ -15,7 +15,7 @@ module ReduxUssd
         end
 
         def matches?(screen)
-          screen.components.any? do |c|
+          screen.option_components.any? do |c|
             c.name == @name &&
                 c.text == @text &&
                 (@index.nil? ? true : c.option_index == @index)

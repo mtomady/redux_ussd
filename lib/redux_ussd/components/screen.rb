@@ -57,19 +57,8 @@ module ReduxUssd
         @store.state
       end
 
-      def dispatch_push(screen)
-        @store.dispatch(type: :push, screen: screen)
-      end
-
       def prompt_or_options?
         option_components.count.positive? || prompt_components.count.positive?
-      end
-
-      private
-
-      def evaluate_components
-        @components = []
-        DslProxy.new(self).instance_eval(&@block)
       end
 
       def option_components
@@ -78,6 +67,13 @@ module ReduxUssd
 
       def prompt_components
         @components.select { |c| c.is_a?(Prompt) }
+      end
+
+      private
+
+      def evaluate_components
+        @components = []
+        DslProxy.new(self).instance_eval(&@block)
       end
 
       # Proxies the DSL methods to screen methods
