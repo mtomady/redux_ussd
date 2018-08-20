@@ -16,12 +16,14 @@ module ReduxUssd
 
         def matches?(screen)
           screen.components.any? do |c|
-            c.name == @name && c.text == @text && (@index.nil? ? true : c.option_index == @index)
+            c.name == @name &&
+                c.text == @text &&
+                (@index.nil? ? true : c.option_index == @index)
           end
         end
 
         def failure_message
-          "Should have a option :#{name} with text #{@text}"
+          "Should have a option :#{@name} with text #{@text}"
         end
 
         def description

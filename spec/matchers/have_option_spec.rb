@@ -19,7 +19,6 @@ RSpec.describe ReduxUssd::Shoulda::Matchers::HaveOptionMatcher do
 
   subject { matcher }
 
-  # TODO: Test with position
   before(:each) do
     screen.render
   end

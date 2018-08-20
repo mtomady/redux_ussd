@@ -15,11 +15,11 @@ module ReduxUssd
   # Configures a menu, setups all view components and
   # handles inputs using a redux store
   class Menu
-    def initialize(options = {})
-      @store = Store.new(options[:state] || {},
+    def initialize(state: nil, static: nil)
+      @store = Store.new(state || {},
                          middlewares,
                          reducers)
-      @static = options[:static] || {}
+      @static = static || {}
       @store.dispatch(type: :symbolize_values)
     end
 
