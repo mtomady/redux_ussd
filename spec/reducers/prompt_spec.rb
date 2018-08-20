@@ -6,8 +6,8 @@ RSpec.describe ReduxUssd::Reducers::Prompt do
   describe '.call' do
     let(:state) { { targets: { some_target: :some_value_key }, values: { some_value_key: nil } } }
 
-    context 'action type is :set_prompt_value' do
-      let(:action) { { type: :set_prompt_value, target: :some_target, value: 'raw input' } }
+    context 'action type is :set_value' do
+      let(:action) { { type: :set_value, target: :some_target, value: 'raw input' } }
 
       it 'should update the target values' do
         expect(subject.call(action, state)).to eq(targets: { some_target: :some_value_key },

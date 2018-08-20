@@ -48,7 +48,7 @@ class HelloWorld
     end
 
     screen :deposit_success do
-      text "Successfully deposited #{state[:prompt][:values][:amount]}AR"
+      text "Successfully deposited #{state[:values][:amount]}AR"
     end
   end
 end

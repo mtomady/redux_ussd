@@ -40,10 +40,8 @@ module ReduxUssd
       },
       options: { },
       option: nil,
-      prompt: {
-        targets: {},
-        values: {}
-      },
+      values: {},
+      prompt: {},
       end: false
     }
   end

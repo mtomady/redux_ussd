@@ -7,6 +7,7 @@ require 'redux_ussd/reducers/prompt'
 require 'redux_ussd/reducers/option'
 require 'redux_ussd/reducers/options'
 require 'redux_ussd/reducers/end'
+require 'redux_ussd/reducers/value'
 require 'redux_ussd/middlewares/option_select'
 require 'redux_ussd/middlewares/prompt_parse'
 require 'redux_ussd/middlewares/end'
@@ -95,7 +96,8 @@ module ReduxUssd
         options: Reducers::Options,
         option: Reducers::Option,
         prompt: Reducers::Prompt,
-        end: Reducers::End
+        end: Reducers::End,
+        values: Reducers::Value
       }
     end
 
