@@ -23,11 +23,11 @@ module ReduxUssd
         end
 
         def failure_message
-          "Should have a option :#{@name} with text \"#{@text}\"#{@index.nil? '' : " at index #{@index}"}"
+          "Should have a option :#{@name} with text \"#{@text}\"#{@index.nil? ? '' : " at index #{@index}"}"
         end
 
         def description
-          "have a option :#{@name} with text \"#{@text}\"#{@index.nil? '' : " at index #{@index}"}"
+          "have a option :#{@name} with text \"#{@text}\"#{@index.nil? ? '' : " at index #{@index}"}"
         end
       end
     end
