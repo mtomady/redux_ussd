@@ -19,11 +19,11 @@ module ReduxUssd
         end
 
         def failure_message
-          "Should have a text component with text #{@text}"
+          "Should have a text component with text \"#{@text}\""
         end
 
         def description
-          "have a text component with text #{@text}"
+          "have a text component with text \"#{@text}\""
         end
       end
     end

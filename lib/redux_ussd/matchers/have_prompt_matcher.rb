@@ -20,11 +20,11 @@ module ReduxUssd
         end
 
         def failure_message
-          "Should have a prompt component with name #{@name} and text #{@text}"
+          "Should have a prompt component with name #{@name} and text \"#{@text}\""
         end
 
         def description
-          "have a prompt component with name #{@name} and text #{@text}"
+          "have a prompt component with name #{@name} and text \"#{@text}\""
         end
       end
     end
