@@ -20,7 +20,7 @@ module ReduxUssd
         end
 
         def failure_message
-          "Should have a prompt component with name #{@name} and text \"#{@text}\""
+          "Should have a prompt component with name #{@name} and text \"#{@text}\" instead found #{screen.prompt_components.map { |c| "#{c.name} - #{c.text}" }}"
         end
 
         def description
