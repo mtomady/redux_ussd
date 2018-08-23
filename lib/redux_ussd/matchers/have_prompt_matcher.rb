@@ -14,13 +14,14 @@ module ReduxUssd
         end
 
         def matches?(screen)
-          screen.prompt_components.any? do |c|
+          @screen = screen
+          @screen.prompt_components.any? do |c|
             c.name == @name && c.text == @text
           end
         end
 
         def failure_message
-          "Should have a prompt component with name #{@name} and text \"#{@text}\" instead found #{screen.prompt_components.map { |c| "#{c.name} - #{c.text}" }}"
+          "Should have a prompt component with name #{@name} and text \"#{@text}\" instead found #{@screen.prompt_components.map { |c| "#{c.name} - #{c.text}" }}"
         end
 
         def description
