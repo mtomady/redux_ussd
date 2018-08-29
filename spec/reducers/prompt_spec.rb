@@ -6,28 +6,6 @@ RSpec.describe ReduxUssd::Reducers::Prompt do
   describe '.call' do
     let(:state) { { targets: { some_target: :some_value_key }, values: { some_value_key: nil } } }
 
-    context 'action type is :set_value' do
-      let(:action) { { type: :set_value, target: :some_target, value: 'raw input' } }
-
-      it 'should update the target values' do
-        expect(subject.call(action, state)).to eq(targets: { some_target: :some_value_key },
-                                                  values: {
-                                                    some_value_key: 'raw input'
-                                                  })
-      end
-
-      it 'should not equal the initial state' do
-        expect(subject.call(action, state)).not_to eq(state)
-      end
-
-      context 'with existing values' do
-        it 'should not replace other values' do
-        end
-
-        it 'should replace old values' do
-        end
-      end
-    end
 
     context 'action type is :register_prompt' do
       let(:action) { { type: :register_prompt, target: :some_target, screen: :the_current_screen } }

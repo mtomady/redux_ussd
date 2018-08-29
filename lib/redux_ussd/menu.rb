@@ -36,9 +36,14 @@ module ReduxUssd
       actions[screens[current_screen].action].call if screens[current_screen].action?
     end
 
-    def check_end?
+    def requires_input?
       current_screen = @store.state[:navigation][:current]
-      @store.dispatch(type: :force_end) unless screens[current_screen].action?
+      screens[current_screen].prompt_or_options?
+    end
+
+    def end?
+      current_screen = @store.state[:navigation][:current]
+      @store.dispatch(type: :force_end) if screens[current_screen].end?
       @store.state[:end]
     end
 
@@ -46,13 +51,14 @@ module ReduxUssd
       @store.dispatch(type: :force_end)
     end
 
-    def register_screen(name, options = {}, &block)
+    def register_screen(name, action: nil, force_end: false, &block)
       screens[name] = Components::Screen.new(
         name: name,
-        action: options[:action],
+        action: action,
         store: @store,
         block: block,
-        static: @static
+        static: @static,
+        force_end: force_end
       )
       @store.dispatch(type: :register_screen, screen: name)
     end

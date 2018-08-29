@@ -19,7 +19,7 @@ class HelloWorld
       push :denied_terms if state[:option] == :no
     end
 
-    screen :denied_terms do
+    screen :denied_terms, force_end: true do
       text 'You denied, sorry :('
     end
 
@@ -30,7 +30,7 @@ class HelloWorld
       option :end, text: 'End'
     end
 
-    screen :balance do
+    screen :balance, force_end: true do
       text 'Your balance is 20AR.'
     end
 
@@ -60,7 +60,7 @@ hello_world.setup_menu(static: { name: 'User 1'})
 hello_world.menu.handle_raw_input('')
 while true
   puts hello_world.menu.render
-  break if hello_world.menu.check_end?
+  break if hello_world.menu.end?
   print '>> '
   input = gets.strip
   hello_world.menu.handle_raw_input(input)

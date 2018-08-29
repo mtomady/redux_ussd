@@ -9,13 +9,14 @@ module ReduxUssd
   module Components
     # Container component for prompts, text and options
     class Screen < Base
-      def initialize(options = {})
-        @name = options[:name]
-        @block = options[:block]
-        @action = options[:action]
+      def initialize(name:,block:,action: nil,store:,static:{}, force_end: false)
+        @name = name
+        @block = block
+        @action = action
         @components = []
-        @store = options[:store]
-        @static = options[:static]
+        @store = store
+        @static = static
+        @force_end = force_end
       end
 
       def render
@@ -29,6 +30,10 @@ module ReduxUssd
 
       def action?
         !@action.nil?
+      end
+
+      def end?
+        @force_end
       end
 
       def add_option(name, options = {})
@@ -47,7 +52,8 @@ module ReduxUssd
       end
 
       def add_prompt(name, options = {})
-        @components.push(Prompt.new(name: name, text: options[:text]))
+        @components.push(Prompt.new(name: name,
+                                    text: options[:text]))
         @store.dispatch(type: :register_prompt,
                         screen: @name, # TODO: RENMAE
                         target: name)
