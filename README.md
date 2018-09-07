@@ -1,6 +1,6 @@
 # Redux USSD
 
-[![Coverage Status](https://coveralls.io/repos/github/DoctorsForMadagascar/redux_ussd/badge.svg?branch=master)](https://coveralls.io/github/DoctorsForMadagascar/redux_ussd?branch=master) [![Build Status](https://travis-ci.org/DoctorsForMadagascar/redux_ussd.svg?branch=master)](https://travis-ci.org/DoctorsForMadagascar/redux_ussd)
+[![Coverage Status](https://coveralls.io/repos/github/mtomady/redux_ussd/badge.svg?branch=master)](https://coveralls.io/github/mtomady/redux_ussd?branch=master) [![Build Status](https://travis-ci.org/mtomady/redux_ussd.svg?branch=master)](https://travis-ci.org/mtomady/redux_ussd)
 
 
 Redux USSD provides an easy DSL to built [USSD](https://en.wikipedia.org/wiki/Unstructured_Supplementary_Service_Data) user interfaces on features phones. It uses the Redux pattern to handle states and perform actions. This library also provides a persistence extension to save state in Redis, ActiveRecord etc.
